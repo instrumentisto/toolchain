@@ -116,6 +116,128 @@ waitDashboardIsDeployed() {
   set -e
 }
 
+path="/usr/local/bin/"
+
+# initVersion init current and latest stable version
+initVersion(){
+
+minikubeStableVersion=$( curl -s https://github.com/kubernetes/minikube/releases/ \
+                        | grep -i "out/minikube-linux-amd64.sha256" -A 2 \
+                        | awk '(NR == 2)' )
+
+minikubeCurrentVersion=$( sha256sum /usr/local/bin/minikube \
+                        | awk '{print $1}' )
+
+kubectlCurrentVersion=$( kubectl version \
+                        | sed -n '/.*v/s///p' \
+                        | grep -o '^[^"]*' \
+                        | head -n 1 )
+
+kubectlLink=$( curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt )
+
+helmStableRelease=$( curl -s https://github.com/kubernetes/helm/releases \
+                        | grep -i 'rel="nofollow">Linux</a></li>' \
+                        | sed -e 's/.*helm-v\(.*\)-.*/\1/' \
+                        | cut -c1-5 | head -n 1 )
+
+helmCurrentRelease=$( helm version | sed -n '/.*v/s///p' \
+                        | grep -o '^[^"]*' \
+                        | head -n 1 )
+}
+
+# minikubeLinuxInstall install minikube
+minikubeLinuxInstall(){
+  minikubeLink=$( curl -s https://github.com/kubernetes/minikube/releases \
+              | grep -i "Linux/amd64" \
+              | head -n 1 \
+              | sed -e 's/.*a\ href="\(.*\)"\ .*/\1/' )
+
+  curl -s -L $minikubeLink -o minikube
+  runAsRoot chmod +x ./minikube
+  runAsRoot mv ./minikube $path
+}
+
+# kubectlLinuxInstall kubectl install
+kubectlLinuxInstall(){
+  kubectlLink=$( curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt )
+  curl -s -L https://storage.googleapis.com/kubernetes-release/release/"$kubectlLink"/bin/linux/amd64/kubectl -o kubectl
+  runAsRoot chmod +x ./kubectl
+  runAsRoot mv ./kubectl $path
+}
+
+# helmLinuxInstall helm install
+helmLinuxInstall(){
+  helmLink=$( curl -s https://github.com/kubernetes/helm/releases \
+              | grep -i 'rel="nofollow">Linux</a>' \
+              | head -n 1 \
+              | sed -e 's/.*<a\ href="\(.*\)"\ rel="nofollow">Linux<.*/\1/' )
+
+  curl -L -s $helmLink -o helm.tar.gz
+  mkdir -p /tmp/helm
+  tar -zxf helm.tar.gz -C /tmp/helm
+  runAsRoot mv /tmp/helm/linux-amd64/helm $path
+}
+
+# checkIfInstall Check if minikube, kubectl and helm is installed
+# if not - install those.
+checkIfInstall(){
+
+for pkg in minikube kubectl helm
+  do
+    if [[ -z $(which $pkg) ]]; then
+      echo "$pkg not found"
+        case $pkg in
+          minikube)
+            echo "Installing minikube..."
+            minikubeLinuxInstall
+          ;;
+          kubectl)
+            echo "Installing kubectl..."
+            kubectlLinuxInstall
+          ;;
+          helm)
+            echo "Installing helm..."
+            helmLinuxInstall
+          ;;
+          *) exit 1
+          ;;
+        esac
+    else
+      echo "$pkg alreadey installed"
+    fi
+done
+}
+
+# upgradeLinuxSoft Check if the latest version of minikube, kubectl and helm is installed
+# if not - upgrade to latest stable version
+upgradeLinuxSoft(){
+
+initVersion
+
+if [[ "$minikubeCurrentVersion" == "$minikubeStableVersion" ]]; then
+  echo "Minikube latest version"
+else
+  echo "Minikube need to upgrade"
+  minikubeLinuxInstall
+  echo "Minikube now is latest stable version."
+fi
+
+if [[ "v$kubectlCurrentVersion" == "$kubectlLink" ]]; then
+  echo "Kubectl latest version"
+else
+  echo "Kubectl need to upgrade"
+  kubectlLinuxInstall
+  echo "Kubectl now is latest stable version."
+fi
+
+if [[ "$helmCurrentRelease" == "$helmStableRelease" ]]; then
+  echo "Helm latest version"
+else
+  echo "Helm need to upgrade"
+  helmLinuxInstall
+  echo "Helm now is latest stable version."
+fi
+}
 
 # Execution
 
@@ -139,6 +261,10 @@ case "$OS" in
     upgradeHomebrewPackages
     # TODO: Hyperkit driver is still not stable enough. Use with later releases.
     #installHyperkitDriver
+    ;;
+  linux)
+    checkIfInstall
+    upgradeLinuxSoft
     ;;
 esac
 
