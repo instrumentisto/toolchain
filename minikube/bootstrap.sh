@@ -116,34 +116,53 @@ waitDashboardIsDeployed() {
   set -e
 }
 
-path="/usr/local/bin/"
+minikubeVer(){
+LATEST_VER=`curl -s https://github.com/kubernetes/minikube/releases/latest| sed -e 's/.*v\(.*\)".*/\1/'`
+
+LATEST_VER_SHA=`curl -s -L https://github.com/kubernetes/minikube/releases/download/v$VER/minikube-linux-$ARCH.sha256 -o \
+    /tmp/minikube.sha && cat /tmp/minikube.sha`
+
+CURRENT_VER=`sha256sum /usr/local/bin/minikube | awk '{print $1}'`
+
+if ! [[ "$LATEST_VER_SHA" == "CURRENT_VER" ]]; then
+echo "curl -s -LO https://github.com/kubernetes/minikube/releases/download/v$VER/minikube-linux-$ARCH"
+fi
+}
+
+helmVer(){
+LATEST_VER=`curl -s https://github.com/kubernetes/helm/releases/latest | sed -e 's/.*v\(.*\)".*/\1/'`
+
+curl -s -LO https://storage.googleapis.com/kubernetes-helm/helm-v$VER-linux-$ARCH.tar.gz
+curl -s -LO https://storage.googleapis.com/kubernetes-helm/helm-v$VER-linux-$ARCH.tar.gz.sha256
+
+}
 
 # initVersion init current and latest stable version
-initVersion(){
-
-minikubeStableVersion=$( curl -s https://github.com/kubernetes/minikube/releases/ \
-                        | grep -i "out/minikube-linux-amd64.sha256" -A 2 \
-                        | awk '(NR == 2)' )
-
-minikubeCurrentVersion=$( sha256sum /usr/local/bin/minikube \
-                        | awk '{print $1}' )
-
-kubectlCurrentVersion=$( kubectl version \
-                        | sed -n '/.*v/s///p' \
-                        | grep -o '^[^"]*' \
-                        | head -n 1 )
-
-kubectlLink=$( curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt )
-
-helmStableRelease=$( curl -s https://github.com/kubernetes/helm/releases \
-                        | grep -i 'rel="nofollow">Linux</a></li>' \
-                        | sed -e 's/.*helm-v\(.*\)-.*/\1/' \
-                        | cut -c1-5 | head -n 1 )
-
-helmCurrentRelease=$( helm version | sed -n '/.*v/s///p' \
-                        | grep -o '^[^"]*' \
-                        | head -n 1 )
-}
+#initVersion(){
+#
+#minikubeStableVersion=$( curl -s https://github.com/kubernetes/minikube/releases/ \
+#                        | grep -i "out/minikube-linux-amd64.sha256" -A 2 \
+#                        | awk '(NR == 2)' )
+#
+#minikubeCurrentVersion=$( sha256sum /usr/local/bin/minikube \
+#                        | awk '{print $1}' )
+#
+#kubectlCurrentVersion=$( kubectl version \
+#                        | sed -n '/.*v/s///p' \
+#                        | grep -o '^[^"]*' \
+#                        | head -n 1 )
+#
+#kubectlLink=$( curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt )
+#
+#helmStableRelease=$( curl -s https://github.com/kubernetes/helm/releases \
+#                        | grep -i 'rel="nofollow">Linux</a></li>' \
+#                        | sed -e 's/.*helm-v\(.*\)-.*/\1/' \
+#                        | cut -c1-5 | head -n 1 )
+#
+#helmCurrentRelease=$( helm version | sed -n '/.*v/s///p' \
+#                        | grep -o '^[^"]*' \
+#                        | head -n 1 )
+#}
 
 # minikubeLinuxInstall install minikube
 minikubeLinuxInstall(){
