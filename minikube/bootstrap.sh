@@ -116,25 +116,28 @@ waitDashboardIsDeployed() {
   set -e
 }
 
-helmLinuxUpgradeTest() {
+#helmLinuxUpgrade check new version and upgrade helm using version number
+helmLinuxUpgrade() {
+  unset LATEST_VER CURRENT_VER SHA CHECK_VER
   LATEST_VER=`curl -s https://github.com/kubernetes/helm/releases/latest | sed -e 's/.*v\(.*\)".*/\1/'`
   CURRENT_VER=`helm version 2>/dev/null | sed -n '/.*v/s///p' | grep -o '^[^"]*' | head -n 1`
   if ! [[ "$CURRENT_VER" == "$LATEST_VER" ]]; then
-    curl -s -LO https://storage.googleapis.com/kubernetes-helm/helm-v$LATEST_VER-linux-$ARCH.tar.gz
-    tar -zxf helm-v$LATEST_VER-linux-$ARCH.tar.gz
-    mv linux-$ARCH/helm /usr/local/bin
+    helmLinuxInstall
   fi
 }
 
-minikubeLinuxInstall() {
-  unset LATEST_VER CURRENT_VER SHA CHECK_VER
-  LATEST_VER=`curl -s https://github.com/kubernetes/minikube/releases/latest| sed -e 's/.*v\(.*\)".*/\1/'`
-  curl -s -L https://github.com/kubernetes/minikube/releases/download/v$LATEST_VER/minikube-linux-$ARCH -o \
-    /tmp/minikube
-  chmod +x /tmp/minikube
-  mv /tmp/minikube /usr/local/bin
+#helmLinuxUpgradeTest alternative variant check new version and upgrade helm using sha1sum
+helmLinuxUpgradeTest() {
+  LATEST_VER=`curl -s https://github.com/kubernetes/helm/releases/latest | sed -e 's/.*v\(.*\)".*/\1/'`
+  curl -s -L https://storage.googleapis.com/kubernetes-helm/helm-v$LATEST_VER-linux-$ARCH.tar.gz -o /tmp/helm.tar.gz
+  CURRENT_VER=`sha1sum /usr/local/bin/helm | awk '{print $1}'`
+  SHA=`tar -zxf helm.tar.gz linux-amd64/helm -O | sha1sum | awk '{print $1}'`
+    if ! [[ "$CURRENT_VER" == "$SHA" ]]; then
+      helmLinuxInstall
+    fi
 }
 
+#minikubeLinuxUpgrade check new version and upgrade minikube
 minikubeLinuxUpgrade() {
   unset LATEST_VER CURRENT_VER SHA CHECK_VER
   LATEST_VER=`curl -s https://github.com/kubernetes/minikube/releases/latest| sed -e 's/.*v\(.*\)".*/\1/'`
@@ -146,32 +149,7 @@ minikubeLinuxUpgrade() {
   fi
 }
 
-helmLinuxInstall() {
-  unset LATEST_VER CURRENT_VER SHA CHECK_VER
-  LATEST_VER=`curl -s https://github.com/kubernetes/helm/releases/latest | sed -e 's/.*v\(.*\)".*/\1/'`
-  curl -s -LO https://storage.googleapis.com/kubernetes-helm/helm-v$LATEST_VER-linux-$ARCH.tar.gz
-  tar -zxf helm-v$LATEST_VER-linux-$ARCH.tar.gz
-  mv linux-$ARCH/helm /usr/local/bin
-}
-
-helmLinuxUpgrade() {
-  unset LATEST_VER CURRENT_VER SHA CHECK_VER
-  LATEST_VER=`curl -s https://github.com/kubernetes/helm/releases/latest | sed -e 's/.*v\(.*\)".*/\1/'`
-  CURRENT_VER=`helm version 2>/dev/null | sed -n '/.*v/s///p' | grep -o '^[^"]*' | head -n 1`
-  if ! [[ "$CURRENT_VER" == "$LATEST_VER" ]]; then
-    helmLinuxInstall
-  fi
-}
-
-kubectlLinuxInstall() {
-  unset LATEST_VER CURRENT_VER SHA CHECK_VER
-  LATEST_VER=`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`
-  curl -s -L https://storage.googleapis.com/kubernetes-release/release/$LATEST_VER/bin/linux/$ARCH/kubectl -o \
-   /tmp/kubectl
-  chmod +x /tmp/kubectl
-  mv /tmp/kubectl /usr/local/bin/
-}
-
+#kubectlLinuxUpgrade check new version and upgrade kubectl
 kubectlLinuxUpgrade() {
   unset LATEST_VER CURRENT_VER SHA CHECK_VER
   LATEST_VER=`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`
@@ -183,8 +161,39 @@ kubectlLinuxUpgrade() {
   fi
 }
 
+#helmLinuxInstall install helm
+helmLinuxInstall() {
+  unset LATEST_VER CURRENT_VER SHA CHECK_VER
+  LATEST_VER=`curl -s https://github.com/kubernetes/helm/releases/latest | sed -e 's/.*v\(.*\)".*/\1/'`
+  curl -s -LO https://storage.googleapis.com/kubernetes-helm/helm-v$LATEST_VER-linux-$ARCH.tar.gz
+  tar -zxf helm-v$LATEST_VER-linux-$ARCH.tar.gz
+  mv linux-$ARCH/helm /usr/local/bin
+}
+
+#minikubeLinuxInstall install minikube
+minikubeLinuxInstall() {
+  unset LATEST_VER CURRENT_VER SHA CHECK_VER
+  LATEST_VER=`curl -s https://github.com/kubernetes/minikube/releases/latest| sed -e 's/.*v\(.*\)".*/\1/'`
+  curl -s -L https://github.com/kubernetes/minikube/releases/download/v$LATEST_VER/minikube-linux-$ARCH -o \
+    /tmp/minikube
+  chmod +x /tmp/minikube
+  mv /tmp/minikube /usr/local/bin
+}
+
+#kubectlLinuxInstall install kubectl
+kubectlLinuxInstall() {
+  unset LATEST_VER CURRENT_VER SHA CHECK_VER
+  LATEST_VER=`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`
+  curl -s -L https://storage.googleapis.com/kubernetes-release/release/$LATEST_VER/bin/linux/$ARCH/kubectl -o \
+   /tmp/kubectl
+  chmod +x /tmp/kubectl
+  mv /tmp/kubectl /usr/local/bin/
+}
+
+#upgradeLinuxPackages install packages if no installed and upgrade
+# if new version is available
 upgradeLinuxPackages() {
-  for PKG in minikube helm kubectl; do
+  for PKG in helm minikube kubectl; do
     INSTALL_PATH=`which $PKG`
       if [[ -z "$INSTALL_PATH" ]]; then
         case $PKG in
