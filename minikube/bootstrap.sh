@@ -131,10 +131,10 @@ helmLinuxUpgradeTest() {
   LATEST_VER=`curl -s https://github.com/kubernetes/helm/releases/latest | sed -e 's/.*v\(.*\)".*/\1/'`
   curl -s -L https://storage.googleapis.com/kubernetes-helm/helm-v$LATEST_VER-linux-$ARCH.tar.gz -o /tmp/helm.tar.gz
   CURRENT_VER=`sha1sum /usr/local/bin/helm | awk '{print $1}'`
-  SHA=`tar -zxf helm.tar.gz linux-amd64/helm -O | sha1sum | awk '{print $1}'`
-    if ! [[ "$CURRENT_VER" == "$SHA" ]]; then
-      helmLinuxInstall
-    fi
+  SHA=`tar -zxf helm.tar.gz /tmp/linux-amd64/helm -O | sha1sum | awk '{print $1}'`
+   if ! [[ "$CURRENT_VER" == "$SHA" ]]; then
+    helmLinuxInstall
+   fi
 }
 
 #minikubeLinuxUpgrade check new version and upgrade minikube
@@ -165,9 +165,9 @@ kubectlLinuxUpgrade() {
 helmLinuxInstall() {
   unset LATEST_VER CURRENT_VER SHA CHECK_VER
   LATEST_VER=`curl -s https://github.com/kubernetes/helm/releases/latest | sed -e 's/.*v\(.*\)".*/\1/'`
-  curl -s -LO https://storage.googleapis.com/kubernetes-helm/helm-v$LATEST_VER-linux-$ARCH.tar.gz
-  tar -zxf helm-v$LATEST_VER-linux-$ARCH.tar.gz
-  mv linux-$ARCH/helm /usr/local/bin
+  curl -s -L https://storage.googleapis.com/kubernetes-helm/helm-v$LATEST_VER-linux-$ARCH.tar.gz -o /tmp/helm.tar.gz
+  runAsRoot tar -zxf /tmp/helm.tar.gz
+  runAsRoot mv /tmp/linux-$ARCH/helm /usr/local/bin
 }
 
 #minikubeLinuxInstall install minikube
@@ -176,8 +176,8 @@ minikubeLinuxInstall() {
   LATEST_VER=`curl -s https://github.com/kubernetes/minikube/releases/latest| sed -e 's/.*v\(.*\)".*/\1/'`
   curl -s -L https://github.com/kubernetes/minikube/releases/download/v$LATEST_VER/minikube-linux-$ARCH -o \
     /tmp/minikube
-  chmod +x /tmp/minikube
-  mv /tmp/minikube /usr/local/bin
+  runAsRoot chmod +x /tmp/minikube
+  runAsRoot mv /tmp/minikube /usr/local/bin
 }
 
 #kubectlLinuxInstall install kubectl
@@ -186,14 +186,14 @@ kubectlLinuxInstall() {
   LATEST_VER=`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`
   curl -s -L https://storage.googleapis.com/kubernetes-release/release/$LATEST_VER/bin/linux/$ARCH/kubectl -o \
    /tmp/kubectl
-  chmod +x /tmp/kubectl
-  mv /tmp/kubectl /usr/local/bin/
+  runAsRoot chmod +x /tmp/kubectl
+  runAsRoot mv /tmp/kubectl /usr/local/bin/
 }
 
 #upgradeLinuxPackages install packages if no installed and upgrade
 # if new version is available
 upgradeLinuxPackages() {
-  for PKG in helm minikube kubectl; do
+  for PKG in minikube helm kubectl; do
     INSTALL_PATH=`which $PKG`
       if [[ -z "$INSTALL_PATH" ]]; then
         case $PKG in
@@ -205,7 +205,7 @@ upgradeLinuxPackages() {
       else
         case $INSTALL_PATH in
           /usr/local/bin/minikube) minikubeLinuxUpgrade ;;
-          /usr/local/bin/helm) helmLinuxUpgradeTest ;;
+          /usr/local/bin/helm) helmLinuxUpgrade ;;
           /usr/local/bin/kubectl) kubectlLinuxUpgrade ;;
           *) exit 1 ;;
         esac
@@ -216,7 +216,7 @@ upgradeLinuxPackages() {
 
 # Execution
 
-set -e
+#set -e
 
 initArch
 initOS
@@ -238,8 +238,7 @@ case "$OS" in
     #installHyperkitDriver
     ;;
   linux)
-    checkIfInstall
-    upgradeLinuxSoft
+    upgradeLinuxPackages
     ;;
 esac
 
