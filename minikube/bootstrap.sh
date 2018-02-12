@@ -132,19 +132,21 @@ helmLinuxUpgradeTest() {
   curl -s -L https://storage.googleapis.com/kubernetes-helm/helm-v$LATEST_VER-linux-$ARCH.tar.gz -o /tmp/helm.tar.gz
   CURRENT_VER=`sha1sum /usr/local/bin/helm | awk '{print $1}'`
   SHA=`tar -zxf helm.tar.gz /tmp/linux-amd64/helm -O | sha1sum | awk '{print $1}'`
-   if ! [[ "$CURRENT_VER" == "$SHA" ]]; then
-    helmLinuxInstall
-   fi
+  if ! [[ "$CURRENT_VER" == "$SHA" ]]; then
+  helmLinuxInstall
+  fi
 }
 
 #minikubeLinuxUpgrade check new version and upgrade minikube
 minikubeLinuxUpgrade() {
   unset LATEST_VER CURRENT_VER SHA CHECK_VER
   LATEST_VER=`curl -s https://github.com/kubernetes/minikube/releases/latest| sed -e 's/.*v\(.*\)".*/\1/'`
-  SHA=`curl -s -L https://github.com/kubernetes/minikube/releases/download/v$LATEST_VER/minikube-linux-$ARCH.sha256 -o \
-    /tmp/minikube.sha256`
-  CHECK_VER=$(echo `cat /tmp/minikube.sha256` /usr/local/bin/minikube | sha256sum -c)
-  if [[ "$?" -eq "1" ]]; then
+  CURRENT_VER=`sha256sum /usr/local/bin/minikube | awk '{print $1}'`
+  SHA=`cat /tmp/minikube.sha256 \
+    $(curl -s -L https://github.com/kubernetes/minikube/releases/download/v$LATEST_VER/minikube-linux-$ARCH.sha256 -o \
+    /tmp/minikube.sha256)`
+
+  if ! [[ "$CURRENT_VER" == "$SHA" ]]; then
     minikubeLinuxInstall
   fi
 }
@@ -153,10 +155,11 @@ minikubeLinuxUpgrade() {
 kubectlLinuxUpgrade() {
   unset LATEST_VER CURRENT_VER SHA CHECK_VER
   LATEST_VER=`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`
-  SHA=`curl -s -L https://storage.googleapis.com/kubernetes-release/release/$LATEST_VER/bin/linux/$ARCH/kubectl.sha1 -o\
-    /tmp/kubectl.sha1`
-  CHECK_VER=$(echo `cat /tmp/kubectl.sha1` /usr/local/bin/kubectl | sha1sum -c 2>/dev/null)
-  if [[ "$?" -eq "1" ]];then
+  CURRENT_VER=`sha1sum /usr/local/bin/kubectl | awk '{print $1}'`
+  SHA=`cat /tmp/kubectl.sha1 \
+    $(curl -s -L https://storage.googleapis.com/kubernetes-release/release/$LATEST_VER/bin/linux/$ARCH/kubectl.sha1 -o\
+    /tmp/kubectl.sha1)`
+  if ! [[ "$CURRENT_VER" == "$SHA" ]];then
     kubectlLinuxInstall
   fi
 }
@@ -216,7 +219,7 @@ upgradeLinuxPackages() {
 
 # Execution
 
-#set -e
+set -e
 
 initArch
 initOS
@@ -242,20 +245,20 @@ case "$OS" in
     ;;
 esac
 
-runIfNot "minikube status | grep 'minikube:' | grep 'Running'" \
-  minikube start --bootstrapper=$MINIKUBE_BOOTSTRAPPER \
-                 --kubernetes-version=$MINIKUBE_K8S_VER \
-                 --vm-driver=$MINIKUBE_VM_DRIVER \
-                 --disk-size=10g
-
-runIfNot "minikube addons list | grep 'ingress' | grep 'enabled'" \
-  minikube addons enable ingress
-
-runCmd \
-  helm init --kube-context=minikube
-
-waitDashboardIsDeployed
-runCmd \
-  minikube dashboard
-
-eval $(minikube docker-env)
+#runIfNot "minikube status | grep 'minikube:' | grep 'Running'" \
+#  minikube start --bootstrapper=$MINIKUBE_BOOTSTRAPPER \
+#                 --kubernetes-version=$MINIKUBE_K8S_VER \
+#                 --vm-driver=$MINIKUBE_VM_DRIVER \
+#                 --disk-size=10g
+#
+#runIfNot "minikube addons list | grep 'ingress' | grep 'enabled'" \
+#  minikube addons enable ingress
+#
+#runCmd \
+#  helm init --kube-context=minikube
+#
+#waitDashboardIsDeployed
+#runCmd \
+#  minikube dashboard
+#
+#eval $(minikube docker-env)
