@@ -127,7 +127,7 @@ helmLinuxUpgrade() {
   currentVer=`sha1sum /usr/local/bin/helm | awk '{print $1}'`
   helmSha=`tar -zxf /tmp/helm.tar.gz linux-amd64/helm -O | sha1sum | awk '{print $1}'`
   if ! [[ "$currentVer" == "$helmSha" ]]; then
-  helmLinuxInstall
+    helmLinuxInstall
   fi
 }
 
@@ -141,7 +141,6 @@ minikubeLinuxUpgrade() {
   minikubeSha=`cat /tmp/minikube.sha256 \
     $(curl -s -L https://github.com/kubernetes/minikube/releases/download/$latestVer/minikube-linux-$ARCH.sha256 -o \
     /tmp/minikube.sha256)`
-
   if ! [[ "$currentVer" == "$minikubeSha" ]]; then
     minikubeLinuxInstall
   fi
@@ -244,20 +243,20 @@ case "$OS" in
     ;;
 esac
 
-#runIfNot "minikube status | grep 'minikube:' | grep 'Running'" \
-#  minikube start --bootstrapper=$MINIKUBE_BOOTSTRAPPER \
-#                 --kubernetes-version=$MINIKUBE_K8S_VER \
-#                 --vm-driver=$MINIKUBE_VM_DRIVER \
-#                 --disk-size=10g
-#
-#runIfNot "minikube addons list | grep 'ingress' | grep 'enabled'" \
-#  minikube addons enable ingress
-#
-#runCmd \
-#  helm init --kube-context=minikube
-#
-#waitDashboardIsDeployed
-#runCmd \
-#  minikube dashboard
-#
-#eval $(minikube docker-env)
+runIfNot "minikube status | grep 'minikube:' | grep 'Running'" \
+  minikube start --bootstrapper=$MINIKUBE_BOOTSTRAPPER \
+                 --kubernetes-version=$MINIKUBE_K8S_VER \
+                 --vm-driver=$MINIKUBE_VM_DRIVER \
+                 --disk-size=10g
+
+runIfNot "minikube addons list | grep 'ingress' | grep 'enabled'" \
+  minikube addons enable ingress
+
+runCmd \
+  helm init --kube-context=minikube
+
+waitDashboardIsDeployed
+runCmd \
+  minikube dashboard
+
+eval $(minikube docker-env)
