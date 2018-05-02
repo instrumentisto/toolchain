@@ -144,11 +144,11 @@ helmLinuxUpgrade() {
 
 #minikubeLinuxUpgrade check new version and upgrade minikube
 minikubeLinuxUpgrade() {
+  $(curl -s -L https://github.com/kubernetes/minikube/releases/download/`\
+               `$minikubeVer/minikube-linux-$ARCH.sha256 -o \
+               /tmp/minikube.sha256)
   currentVer=`sha256sum /usr/local/bin/minikube | awk '{print $1}'`
   minikubeSha=`cat /tmp/minikube.sha256`
-    $(curl -s -L https://github.com/kubernetes/minikube/releases/download/`\
-                 `$minikubeVer/minikube-linux-$ARCH.sha256 -o \
-                 /tmp/minikube.sha256)
   if ! [[ "$currentVer" == "$minikubeSha" ]]; then
     minikubeLinuxInstall
   fi
@@ -156,11 +156,11 @@ minikubeLinuxUpgrade() {
 
 #kubectlLinuxUpgrade check new version and upgrade kubectl
 kubectlLinuxUpgrade() {
+  $(curl -s -L https://storage.googleapis.com/kubernetes-release/release/`\
+               `$kubectlVer/bin/linux/$ARCH/kubectl.sha1 -o \
+               /tmp/kubectl.sha1)
   currentVer=`sha1sum /usr/local/bin/kubectl | awk '{print $1}'`
   kubectlSha=`cat /tmp/kubectl.sha1`
-    $(curl -s -L https://storage.googleapis.com/kubernetes-release/release/`\
-                 `$kubectlVer/bin/linux/$ARCH/kubectl.sha1 -o \
-                 /tmp/kubectl.sha1)
   if ! [[ "$currentVer" == "$kubectlSha" ]];then
     kubectlLinuxInstall
   fi
