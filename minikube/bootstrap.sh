@@ -121,10 +121,10 @@ waitDashboardIsDeployed() {
 
 githubUrl=https://api.github.com/repos/kubernetes
 
-helmVer=`curl -s $githubUrl/helm/releases/latest \
+minikubeVer=`curl -s $githubUrl/minikube/releases/latest \
     | awk '/tag_name/{print $2}' | tr -d \",`
 
-minikubeVer=`curl -s $githubUrl/minikube/releases/latest \
+helmVer=`curl -s $githubUrl/helm/releases/latest \
     | awk '/tag_name/{print $2}' | tr -d \",`
 
 kubectlVer=`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`
@@ -133,8 +133,8 @@ dstPath=/usr/local/bin
 
 #helmLinuxUpgrade check new version and upgrade helm using sha1sum
 helmLinuxUpgrade() {
-  curl -s -L https://storage.googleapis.com/kubernetes-helm/\
-    helm-$helmVer-linux-$ARCH.tar.gz -o /tmp/helm.tar.gz
+  curl -s -L https://storage.googleapis.com/kubernetes-helm/`
+    `helm-$helmVer-linux-$ARCH.tar.gz -o /tmp/helm.tar.gz
   currentVer=`sha1sum /usr/local/bin/helm | awk '{print $1}'`
   helmSha=`tar -zxf /tmp/helm.tar.gz linux-amd64/helm -O | sha1sum | awk '{print $1}'`
   if ! [[ "$currentVer" == "$helmSha" ]]; then
@@ -145,10 +145,10 @@ helmLinuxUpgrade() {
 #minikubeLinuxUpgrade check new version and upgrade minikube
 minikubeLinuxUpgrade() {
   currentVer=`sha256sum /usr/local/bin/minikube | awk '{print $1}'`
-  minikubeSha=`cat /tmp/minikube.sha256 \
-    $(curl -s -L https://github.com/kubernetes/minikube/releases/download/\
-    $minikubeVer/minikube-linux-$ARCH.sha256 -o \
-    /tmp/minikube.sha256)`
+  minikubeSha=`cat /tmp/minikube.sha256`
+    $(curl -s -L https://github.com/kubernetes/minikube/releases/download/`
+      `$minikubeVer/minikube-linux-$ARCH.sha256 -o \
+    /tmp/minikube.sha256)
   if ! [[ "$currentVer" == "$minikubeSha" ]]; then
     minikubeLinuxInstall
   fi
@@ -157,10 +157,10 @@ minikubeLinuxUpgrade() {
 #kubectlLinuxUpgrade check new version and upgrade kubectl
 kubectlLinuxUpgrade() {
   currentVer=`sha1sum /usr/local/bin/kubectl | awk '{print $1}'`
-  kubectlSha=`cat /tmp/kubectl.sha1 \
-    $(curl -s -L https://storage.googleapis.com/kubernetes-release/release/\
-    $kubectlVer/bin/linux/$ARCH/kubectl.sha1 -o \
-    /tmp/kubectl.sha1)`
+  kubectlSha=`cat /tmp/kubectl.sha1`
+    $(curl -s -L https://storage.googleapis.com/kubernetes-release/release/`
+    `$kubectlVer/bin/linux/$ARCH/kubectl.sha1 -o \
+    /tmp/kubectl.sha1)
   if ! [[ "$currentVer" == "$kubectlSha" ]];then
     kubectlLinuxInstall
   fi
@@ -168,24 +168,27 @@ kubectlLinuxUpgrade() {
 
 #helmLinuxInstall install helm
 helmLinuxInstall() {
-  curl -s -L https://storage.googleapis.com/kubernetes-helm/\
-    helm-$helmVer-linux-$ARCH.tar.gz -o /tmp/helm.tar.gz
+  echo "Install latest $helmVer helm"
+  curl -s -L https://storage.googleapis.com/kubernetes-helm/`
+    `helm-$helmVer-linux-$ARCH.tar.gz -o /tmp/helm.tar.gz
   runAsRoot tar -zxf /tmp/helm.tar.gz
   runAsRoot mv /tmp/linux-$ARCH/helm $dstPath
 }
 
 #minikubeLinuxInstall install minikube
 minikubeLinuxInstall() {
-  curl -s -L https://github.com/kubernetes/minikube/releases/download/\
-    $minikubeVer/minikube-linux-$ARCH -o /tmp/minikube
+  echo "Install latest $minikubeVer minikube"
+  curl -s -L https://github.com/kubernetes/minikube/releases/download/`
+    `$minikubeVer/minikube-linux-$ARCH -o /tmp/minikube
   runAsRoot chmod +x /tmp/minikube
   runAsRoot mv /tmp/minikube $dstPath
 }
 
 #kubectlLinuxInstall install kubectl
 kubectlLinuxInstall() {
-  curl -s -L https://storage.googleapis.com/kubernetes-release/release/\
-    $kubectlVer/bin/linux/$ARCH/kubectl -o /tmp/kubectl
+  echo "Install latest $kubectlVer kubectl"
+  curl -s -L https://storage.googleapis.com/kubernetes-release/release/`
+    `$kubectlVer/bin/linux/$ARCH/kubectl -o /tmp/kubectl
   runAsRoot chmod +x /tmp/kubectl
   runAsRoot mv /tmp/kubectl $dstPath
 }
@@ -194,6 +197,7 @@ kubectlLinuxInstall() {
 # if new version is available
 upgradeLinuxPackages() {
   set +e
+  echo "Check for install/updates"
   for pkg in minikube helm kubectl; do
     installPath=`which $pkg`
       if [[ -z "$installPath" ]]; then
@@ -210,10 +214,10 @@ upgradeLinuxPackages() {
           $dstPath/kubectl) kubectlLinuxUpgrade ;;
           *) exit 1 ;;
         esac
+      echo "Packages $pkg is up to date"
       fi
   done
 }
-
 
 # Execution
 
