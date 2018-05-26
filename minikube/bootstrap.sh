@@ -119,17 +119,15 @@ waitDashboardIsDeployed() {
 
 #define local variables for linux part
 
-githubUrl=https://api.github.com/repos/kubernetes
+url=https://api.github.com/repos/kubernetes
 
-minikubeVer=`curl -s $githubUrl/minikube/releases/latest \
-                     | awk '/tag_name/{print $2}' | tr -d \",`
+minikubeVer=`curl -s $url/minikube/releases/latest | awk '/tag_name/{print $2}' | tr -d \",`
 
-helmVer=`curl -s $githubUrl/helm/releases/latest \
-                 | awk '/tag_name/{print $2}' | tr -d \",`
+helmVer=`curl -s $url/helm/releases/latest | awk '/tag_name/{print $2}' | tr -d \",`
 
 kubectlVer=`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`
 
-dstPath=/usr/local/bin
+dstPath='/usr/local/bin'
 
 #helmLinuxUpgrade check new version and upgrade helm using sha1sum
 helmLinuxUpgrade() {
