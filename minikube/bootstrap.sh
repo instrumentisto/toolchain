@@ -67,6 +67,15 @@ runCmd() {
   (set -x; $@)
 }
 
+getGitHubLatestRelease() {
+
+  echo $(curl -SsL "$1" | awk '/\/tag\//' \
+    | grep -v no-underline \
+    | head -n 1 | cut -d '"' -f 2 \
+    | awk '{n=split($NF,a,"/");print a[n]}' \
+    | awk 'a !~ $0{print}; {a=$0}')
+}
+
 # upgradeHomebrewPackages upgrades required Homebrew packages to latest version.
 upgradeHomebrewPackages() {
   runCmd \
@@ -90,6 +99,67 @@ upgradeHomebrewPackages() {
     fi
   done
 }
+
+# upgradeChocoPackages  upgrades required Chocolatey packages to latest version.
+upgradeChocoPackages() {
+  runIfNot "choco list --local-only | grep 'minikube'" \
+    choco install minikube
+  if [ ! $(choco outdated | grep 'minikube') ]; then
+    runCmd \
+      choco upgrade minikube
+  fi
+  for pkg in kubernetes-cli kubernetes-helm; do
+    if [ ! $(choco list --local-only | grep $pkg | awk '{ print $1}') ]; then
+      runCmd \
+        choco install $pkg
+      echo "install $pkg"
+    elif [ $(choco outdated | grep $pkg) ]; then
+      runCmd \
+        choco upgrade $pkg
+    fi
+  done
+}
+
+upgradePackages() {
+
+  installMinikube() {
+    runCmd \
+      curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+    runAsRoot install minikube-linux-amd64 /usr/local/bin/minikube-debug
+    rm minikube-linux-amd64
+  }
+
+  installKubectl() {
+    KUBECTL_VERSION=$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)
+    runCmd \
+      curl -LO https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl
+    runAsRoot install kubectl /usr/local/bin/kubectl-debug
+    rm kubectl
+  }
+
+  installHelm() {
+    runAsRoot curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
+  }
+
+  if [ -z $(which minikube-debug) ]; then
+    installMinikube
+  elif [ "$(minikube-debug version | awk '{ print $3}')" != $(getGitHubLatestRelease "https://github.com/kubernetes/minikube/releases/latest") ]; then
+    installMinikube
+  fi
+
+  if [ -z $(which kubectl-debug) ]; then
+    installKubectl
+  elif [ "$(kubectl version --client --short=true | awk '{ print $3}')" != $(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt) ]; then
+    installKubectl
+  fi
+
+  if [ -z $(which helm) ]; then
+    runAsRoot curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
+  fi
+
+}
+
+
 
 # installHyperkitDriver installs Hyperkit VM driver if it's not installed yet.
 installHyperkitDriver() {
@@ -145,20 +215,31 @@ case "$OS" in
     # TODO: Hyperkit driver is still not stable enough. Use with later releases.
     #installHyperkitDriver
     ;;
+  windows)
+    upgradeChocoPackages
+    ;;
+  linux)
+    upgradePackages
+    ;;
 esac
 
-runIfNot "minikube status | grep 'minikube:' | grep 'Running'" \
-  minikube start --bootstrapper=$MINIKUBE_BOOTSTRAPPER \
-                 --kubernetes-version=$MINIKUBE_K8S_VER \
-                 --vm-driver=$MINIKUBE_VM_DRIVER \
-                 --disk-size=10g
 
-runIfNot "minikube addons list | grep 'ingress' | grep 'enabled'" \
-  minikube addons enable ingress
+#####################
+# Disable for debug #
+#####################
 
-runCmd \
-  helm init --kube-context=minikube
+# runIfNot "minikube status | grep 'minikube:' | grep 'Running'" \
+#   minikube start --bootstrapper=$MINIKUBE_BOOTSTRAPPER \
+#                  --kubernetes-version=$MINIKUBE_K8S_VER \
+#                  --vm-driver=$MINIKUBE_VM_DRIVER \
+#                  --disk-size=10g
 
-waitDashboardIsDeployed
-runCmd \
-  minikube dashboard
+# runIfNot "minikube addons list | grep 'ingress' | grep 'enabled'" \
+#   minikube addons enable ingress
+
+# runCmd \
+#   helm init --kube-context=minikube
+
+# waitDashboardIsDeployed
+# runCmd \
+#   minikube dashboard
