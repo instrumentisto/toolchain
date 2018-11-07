@@ -71,7 +71,6 @@ runCmd() {
 # Example:
 #   getGitHubLatestRelease "https://github.com/helm/helm/releases/latest"
 getGitHubLatestRelease() {
-
   echo $(curl -SsL "$1" | awk '/\/tag\//' \
     | grep -v no-underline \
     | head -n 1 | cut -d '"' -f 2 \
@@ -237,7 +236,6 @@ case "$OS" in
     upgradeBinaryPackages
     ;;
 esac
-
 
 runIfNot "minikube status | grep 'minikube:' | grep 'Running'" \
   minikube start --bootstrapper=$MINIKUBE_BOOTSTRAPPER \
