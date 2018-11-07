@@ -67,6 +67,9 @@ runCmd() {
   (set -x; $@)
 }
 
+# getGitHubLatestRelease get latest release from GitHub release page
+# Example:
+#   getGitHubLatestRelease "https://github.com/helm/helm/releases/latest"
 getGitHubLatestRelease() {
 
   echo $(curl -SsL "$1" | awk '/\/tag\//' \
@@ -122,7 +125,6 @@ upgradeChocoPackages() {
 
 # upgradeBinaryPackages upgrades required binary packages to latest version.
 upgradeBinaryPackages() {
-
   if [ -z $(which helm) ]; then
     installHelmBinary
   else
@@ -132,7 +134,6 @@ upgradeBinaryPackages() {
       installHelmBinary
     fi
   fi
-
   if [ -z $(which kubectl) ]; then
     installKubectlBinary
   else
@@ -142,17 +143,15 @@ upgradeBinaryPackages() {
       installKubectlBinary
     fi
   fi
-
-  if [ -z $(which minikube-debug) ]; then
+  if [ -z $(which minikube) ]; then
     installMinikubeBinary
   else
     MINIKUBE_LATEST_VERSION=$(getGitHubLatestRelease "https://github.com/kubernetes/minikube/releases/latest")
-    MINIMUBE_CURRENT_VERSION=$(minikube-debug version | awk '{ print $3}')
+    MINIMUBE_CURRENT_VERSION=$(minikube version | awk '{ print $3}')
     if [ "${MINIMUBE_CURRENT_VERSION}" != ${MINIKUBE_LATEST_VERSION} ]; then
       installMinikubeBinary
     fi
   fi
-
 }
 
 # installHelmBinary upgrade binary helm package
@@ -173,10 +172,9 @@ installKubectlBinary() {
 installMinikubeBinary() {
     runCmd \
       curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-${OS}-${ARCH}
-    runAsRoot install minikube-${OS}-${ARCH} /usr/local/bin/minikube-debug
+    runAsRoot install minikube-${OS}-${ARCH} /usr/local/bin/minikube
     rm minikube-${OS}-${ARCH}
 }
-
 
 # installHyperkitDriver installs Hyperkit VM driver if it's not installed yet.
 installHyperkitDriver() {
@@ -241,22 +239,18 @@ case "$OS" in
 esac
 
 
-#####################
-# Disable for debug #
-#####################
+runIfNot "minikube status | grep 'minikube:' | grep 'Running'" \
+  minikube start --bootstrapper=$MINIKUBE_BOOTSTRAPPER \
+                 --kubernetes-version=$MINIKUBE_K8S_VER \
+                 --vm-driver=$MINIKUBE_VM_DRIVER \
+                 --disk-size=10g
 
-# runIfNot "minikube status | grep 'minikube:' | grep 'Running'" \
-#   minikube start --bootstrapper=$MINIKUBE_BOOTSTRAPPER \
-#                  --kubernetes-version=$MINIKUBE_K8S_VER \
-#                  --vm-driver=$MINIKUBE_VM_DRIVER \
-#                  --disk-size=10g
+runIfNot "minikube addons list | grep 'ingress' | grep 'enabled'" \
+  minikube addons enable ingress
 
-# runIfNot "minikube addons list | grep 'ingress' | grep 'enabled'" \
-#   minikube addons enable ingress
+runCmd \
+  helm init --kube-context=minikube
 
-# runCmd \
-#   helm init --kube-context=minikube
-
-# waitDashboardIsDeployed
-# runCmd \
-#   minikube dashboard
+waitDashboardIsDeployed
+runCmd \
+  minikube dashboard
