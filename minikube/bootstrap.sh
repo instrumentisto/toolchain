@@ -100,7 +100,7 @@ upgradeHomebrewPackages() {
   done
 }
 
-# upgradeChocoPackages  upgrades required Chocolatey packages to latest version.
+# upgradeChocoPackages upgrades required Chocolatey packages to latest version.
 upgradeChocoPackages() {
   runIfNot "choco list --local-only | grep 'minikube'" \
     choco install minikube
@@ -120,45 +120,62 @@ upgradeChocoPackages() {
   done
 }
 
-upgradePackages() {
-
-  installMinikube() {
-    runCmd \
-      curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-    runAsRoot install minikube-linux-amd64 /usr/local/bin/minikube-debug
-    rm minikube-linux-amd64
-  }
-
-  installKubectl() {
-    KUBECTL_VERSION=$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)
-    runCmd \
-      curl -LO https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl
-    runAsRoot install kubectl /usr/local/bin/kubectl-debug
-    rm kubectl
-  }
-
-  installHelm() {
-    runAsRoot curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
-  }
-
-  if [ -z $(which minikube-debug) ]; then
-    installMinikube
-  elif [ "$(minikube-debug version | awk '{ print $3}')" != $(getGitHubLatestRelease "https://github.com/kubernetes/minikube/releases/latest") ]; then
-    installMinikube
-  fi
-
-  if [ -z $(which kubectl-debug) ]; then
-    installKubectl
-  elif [ "$(kubectl version --client --short=true | awk '{ print $3}')" != $(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt) ]; then
-    installKubectl
-  fi
+# upgradeBinaryPackages upgrades required binary packages to latest version.
+upgradeBinaryPackages() {
 
   if [ -z $(which helm) ]; then
-    runAsRoot curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
+    installHelmBinary
+  else
+    HELM_LATEST_VERSION=$(getGitHubLatestRelease "https://github.com/helm/helm/releases/latest")
+    HELM_CURRENT_VERSION=$(helm version --client --short | tr "+" " " | awk '{ print $2 }')
+    if [ "${HELM_LATEST_VERSION}" != ${HELM_CURRENT_VERSION} ]; then
+      installHelmBinary
+    fi
+  fi
+
+  if [ -z $(which kubectl) ]; then
+    installKubectlBinary
+  else
+    KUBECTL_LATEST_VERSION=$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)
+    KUBECTL_CURRENT_VERSION=$(kubectl version --client --short=true | awk '{ print $3}')
+    if [ "${KUBECTL_CURRENT_VERSION}" != ${KUBECTL_LATEST_VERSION} ]; then
+      installKubectlBinary
+    fi
+  fi
+
+  if [ -z $(which minikube-debug) ]; then
+    installMinikubeBinary
+  else
+    MINIKUBE_LATEST_VERSION=$(getGitHubLatestRelease "https://github.com/kubernetes/minikube/releases/latest")
+    MINIMUBE_CURRENT_VERSION=$(minikube-debug version | awk '{ print $3}')
+    if [ "${MINIMUBE_CURRENT_VERSION}" != ${MINIKUBE_LATEST_VERSION} ]; then
+      installMinikubeBinary
+    fi
   fi
 
 }
 
+# installHelmBinary upgrade binary helm package
+installHelmBinary() {
+  runAsRoot curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
+}
+
+# installHelmBinary upgrade binary kubectl package
+installKubectlBinary() {
+    KUBECTL_VERSION=$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)
+    runCmd \
+      curl -LO https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/${OS}/${ARCH}/kubectl
+    runAsRoot install kubectl /usr/local/bin/kubectl
+    rm kubectl
+}
+
+# installHelmBinary upgrade binary minikube package
+installMinikubeBinary() {
+    runCmd \
+      curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-${OS}-${ARCH}
+    runAsRoot install minikube-${OS}-${ARCH} /usr/local/bin/minikube-debug
+    rm minikube-${OS}-${ARCH}
+}
 
 
 # installHyperkitDriver installs Hyperkit VM driver if it's not installed yet.
@@ -219,7 +236,7 @@ case "$OS" in
     upgradeChocoPackages
     ;;
   linux)
-    upgradePackages
+    upgradeBinaryPackages
     ;;
 esac
 
