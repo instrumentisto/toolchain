@@ -54,4 +54,4 @@ endif
 ##################
 
 .PHONY: squash \
-	git.squash
+        git.squash
