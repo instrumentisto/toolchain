@@ -160,7 +160,7 @@ installKubectlBinary() {
   runCmd \
     curl -LO https://storage.googleapis.com/kubernetes-release/release/${VER}/bin/${OS}/${ARCH}/kubectl
   runAsRoot install kubectl /usr/local/bin/kubectl
-  rm kubectl
+  rm -f kubectl
 }
 
 # installHelmBinary upgrade binary minikube package
@@ -168,7 +168,7 @@ installMinikubeBinary() {
   runCmd \
     curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-${OS}-${ARCH}
   runAsRoot install minikube-${OS}-${ARCH} /usr/local/bin/minikube
-  rm minikube-${OS}-${ARCH}
+  rm -f minikube-${OS}-${ARCH}
 }
 
 # installHyperkitDriver installs Hyperkit VM driver if it's not installed yet.
