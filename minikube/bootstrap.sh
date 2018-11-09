@@ -120,7 +120,7 @@ upgradeRawBinaries() {
   else
     local HELM_LAST_VER=$(getGitHubLatestRelease "helm/helm")
     local HELM_CURR_VER=$(helm version --client --short | tr "+" " " \
-      | cut -f 2 -d " ")
+                                                        | cut -f 2 -d " ")
     if [ "$HELM_CURR_VER" != "$HELM_LAST_VER" ]; then
       installHelmBinary
     fi
@@ -129,9 +129,8 @@ upgradeRawBinaries() {
     installKubectlBinary
   else
     local KUBECTL_LAST_VER=$(curl -s \
-      https://storage.googleapis.com/kubernetes-release/release/stable.txt)
-    local KUBECTL_CURR_VER=$(kubectl version --client --short=true \
-      | cut -f 3 -d " ")
+           https://storage.googleapis.com/kubernetes-release/release/stable.txt)
+    local KUBECTL_CURR_VER=$(kubectl version --client --short | cut -f 3 -d " ")
     if [ "$KUBECTL_CURR_VER" != "$KUBECTL_LAST_VER" ]; then
       installKubectlBinary
     fi
