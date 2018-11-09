@@ -118,27 +118,30 @@ upgradeRawBinaries() {
   if [ -z $(which helm) ]; then
     installHelmBinary
   else
-    HELM_LATEST_VERSION=$(getGitHubLatestRelease "helm/helm")
-    HELM_CURRENT_VERSION=$(helm version --client --short | tr "+" " " | awk '{ print $2 }')
-    if [ "$HELM_LATEST_VERSION" != "$HELM_CURRENT_VERSION" ]; then
+    local HELM_LAST_VER=$(getGitHubLatestRelease "helm/helm")
+    local HELM_CURR_VER=$(helm version --client --short | tr "+" " " \
+      | cut -f 2 -d " ")
+    if [ "$HELM_CURR_VER" != "$HELM_LAST_VER" ]; then
       installHelmBinary
     fi
   fi
   if [ -z $(which kubectl) ]; then
     installKubectlBinary
   else
-    KUBECTL_LATEST_VERSION=$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)
-    KUBECTL_CURRENT_VERSION=$(kubectl version --client --short=true | awk '{ print $3}')
-    if [ "${KUBECTL_CURRENT_VERSION}" != ${KUBECTL_LATEST_VERSION} ]; then
+    local KUBECTL_LAST_VER=$(curl -s \
+      https://storage.googleapis.com/kubernetes-release/release/stable.txt)
+    local KUBECTL_CURR_VER=$(kubectl version --client --short=true \
+      | cut -f 3 -d " ")
+    if [ "$KUBECTL_CURR_VER" != "$KUBECTL_LAST_VER" ]; then
       installKubectlBinary
     fi
   fi
   if [ -z $(which minikube) ]; then
     installMinikubeBinary
   else
-    MINIKUBE_LATEST_VERSION=$(getGitHubLatestRelease "kubernetes/minikube")
-    MINIMUBE_CURRENT_VERSION=$(minikube version | awk '{ print $3}')
-    if [ "${MINIMUBE_CURRENT_VERSION}" != ${MINIKUBE_LATEST_VERSION} ]; then
+    local MINIKUBE_LAST_VER=$(getGitHubLatestRelease "kubernetes/minikube")
+    local MINIMUBE_CURR_VER=$(minikube version | cut -f 3 -d " ")
+    if [ "$MINIMUBE_CURR_VER" != "$MINIKUBE_LAST_VER" ]; then
       installMinikubeBinary
     fi
   fi
@@ -152,9 +155,10 @@ installHelmBinary() {
 
 # installHelmBinary upgrade binary kubectl package
 installKubectlBinary() {
-  KUBECTL_VERSION=$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)
+  local VER=$(curl -s \
+    https://storage.googleapis.com/kubernetes-release/release/stable.txt)
   runCmd \
-    curl -LO https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/${OS}/${ARCH}/kubectl
+    curl -LO https://storage.googleapis.com/kubernetes-release/release/${VER}/bin/${OS}/${ARCH}/kubectl
   runAsRoot install kubectl /usr/local/bin/kubectl
   rm kubectl
 }
@@ -231,9 +235,9 @@ esac
 
 runIfNot "minikube status | grep 'minikube:' | grep 'Running'" \
   minikube start --bootstrapper=$MINIKUBE_BOOTSTRAPPER \
-                 --kubernetes-version=$MINIKUBE_K8S_VER \
-                 --vm-driver=$MINIKUBE_VM_DRIVER \
-                 --disk-size=10g
+                  --kubernetes-version=$MINIKUBE_K8S_VER \
+                  --vm-driver=$MINIKUBE_VM_DRIVER \
+                  --disk-size=10g
 
 runIfNot "minikube addons list | grep 'ingress' | grep 'enabled'" \
   minikube addons enable ingress
