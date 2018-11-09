@@ -55,4 +55,3 @@ endif
 
 .PHONY: squash \
 	git.squash
-1
