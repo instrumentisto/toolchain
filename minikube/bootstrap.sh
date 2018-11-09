@@ -235,9 +235,9 @@ esac
 
 runIfNot "minikube status | grep 'minikube:' | grep 'Running'" \
   minikube start --bootstrapper=$MINIKUBE_BOOTSTRAPPER \
-                  --kubernetes-version=$MINIKUBE_K8S_VER \
-                  --vm-driver=$MINIKUBE_VM_DRIVER \
-                  --disk-size=10g
+                 --kubernetes-version=$MINIKUBE_K8S_VER \
+                 --vm-driver=$MINIKUBE_VM_DRIVER \
+                 --disk-size=10g
 
 runIfNot "minikube addons list | grep 'ingress' | grep 'enabled'" \
   minikube addons enable ingress
