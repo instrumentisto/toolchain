@@ -67,13 +67,13 @@ runCmd() {
   (set -x; $@)
 }
 
-# getGitHubLatestRelease get latest release from GitHub release page
+# getGitHubLatestRelease gets the latest release from GitHub releases page.
 # Example:
 #   getGitHubLatestRelease "helm/helm"
 getGitHubLatestRelease() {
-  curl --silent "https://api.github.com/repos/$1/releases/latest" |
-    grep '"tag_name":' |
-    sed -E 's/.*"([^"]+)".*/\1/'
+  curl -sfL "https://api.github.com/repos/$1/releases/latest" \
+    | grep '"tag_name":' \
+    | sed -E 's/.*"([^"]+)".*/\1/'
 }
 
 # upgradeHomebrewPackages upgrades required Homebrew packages to latest version.
@@ -102,31 +102,25 @@ upgradeHomebrewPackages() {
 
 # upgradeChocoPackages upgrades required Chocolatey packages to latest version.
 upgradeChocoPackages() {
-  runIfNot "choco list --local-only | grep minikube" \
-    choco install --yes minikube
-  if [ "$(choco outdated | grep minikube)" ]; then
-    runCmd \
-      choco upgrade --yes minikube
-  fi
-  for pkg in kubernetes-cli kubernetes-helm; do
+  for pkg in kubernetes-cli kubernetes-helm minikube; do
     if [ ! "$(choco list --local-only | grep $pkg)" ]; then
       runCmd \
-        choco install --yes $pkg
+        choco install -y $pkg
     elif [ "$(choco outdated | grep $pkg)" ]; then
       runCmd \
-        choco upgrade --yes $pkg
+        choco upgrade -y $pkg
     fi
   done
 }
 
-# upgradeBinaryPackages upgrades required binary packages to latest version.
-upgradeBinaryPackages() {
+# upgradeRawBinaries upgrades required binaries to latest version.
+upgradeRawBinaries() {
   if [ -z $(which helm) ]; then
     installHelmBinary
   else
     HELM_LATEST_VERSION=$(getGitHubLatestRelease "helm/helm")
     HELM_CURRENT_VERSION=$(helm version --client --short | tr "+" " " | awk '{ print $2 }')
-    if [ "${HELM_LATEST_VERSION}" != ${HELM_CURRENT_VERSION} ]; then
+    if [ "$HELM_LATEST_VERSION" != "$HELM_CURRENT_VERSION" ]; then
       installHelmBinary
     fi
   fi
@@ -152,7 +146,8 @@ upgradeBinaryPackages() {
 
 # installHelmBinary upgrade binary helm package
 installHelmBinary() {
-  runAsRoot curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
+  runAsRoot \
+    curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
 }
 
 # installHelmBinary upgrade binary kubectl package
@@ -230,7 +225,7 @@ case "$OS" in
     upgradeChocoPackages
     ;;
   linux)
-    upgradeBinaryPackages
+    upgradeRawBinaries
     ;;
 esac
 
