@@ -69,7 +69,7 @@ runCmd() {
 
 # getGitHubLatestRelease get latest release from GitHub release page
 # Example:
-#   getGitHubLatestRelease "https://github.com/helm/helm/releases/latest"
+#   getGitHubLatestRelease "helm/helm"
 getGitHubLatestRelease() {
   curl --silent "https://api.github.com/repos/$1/releases/latest" |
     grep '"tag_name":' |
