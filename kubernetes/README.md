@@ -1,5 +1,4 @@
 Kubernetes related tools and snippets
-===================================
+=====================================
 
-- [`kube-gitlab-auth.sh`](kube-gitlab-auth.sh) receives [`Gitlab Personal Access Token`](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html) from gitlab and provides access to the kubernetes cluster using it
-
+- [`gitlab-auth.sh`](gitlab-auth.sh) creates [Gitlab Personal Access Token](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html) in GitLab account and provides access to Kubernetes cluster using it.
