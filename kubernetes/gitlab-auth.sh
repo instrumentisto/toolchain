@@ -36,12 +36,12 @@ runCmd() {
 
 # getGitlabToken generate Gitlab personal access token with api scopes
 # Example:
-#   getGitlabToken "https://gitlab.com" "user" "pass"
-getGitlabToken() {
+#   getGitlabToken "https://gitlab.com" "user" "pass" "token name"
+generateGitlabToken() {
   local GITLAB_URL=$1
   local GITLAB_USER=$2
   local GITLAB_PASS=$3
-  local GITLAB_TOKEN_NAME="kubernetes"
+  local GITLAB_TOKEN_NAME=$4
   local COOKIES_FILE=$(mktemp --suffix=cookies)
 
   local htmlContent=$(curl -c "$COOKIES_FILE" -i "$GITLAB_URL/users/sign_in" -s)
@@ -49,10 +49,10 @@ getGitlabToken() {
     | sed 's/.*<form class="new_user[^<]*\(<[^<]*\)\{2\}authenticity_token" value="\([^ ]*\)".*/\2/' \
     | sed -n 1p)
 
-  curl -b "$COOKIES_FILE" -c "$COOKIES_FILE" -s --output=/dev/null \
+  curl -b "$COOKIES_FILE" -c "$COOKIES_FILE" -s --output /dev/null \
     -i "$GITLAB_URL/users/sign_in" \
-    --data="user[login]=$GITLAB_USER&user[password]=$GITLAB_PASS" \
-    --data-urlencode="authenticity_token=$csrfToken"
+    --data "user[login]=$GITLAB_USER&user[password]=$GITLAB_PASS" \
+    --data-urlencode "authenticity_token=$csrfToken"
 
   if [ "$(cat $COOKIES_FILE | grep _gitlab_session \
                             | awk '{print $5}')" == "0" ]; then
@@ -64,11 +64,11 @@ getGitlabToken() {
 
     local htmlContent=$(curl -s -L \
       -b "$COOKIES_FILE" "$GITLAB_URL/profile/personal_access_tokens" \
-      --data-urlencode="authenticity_token=$csrfToken" \
-      --data="personal_access_token[name]=$GITLAB_TOKEN_NAME&personal_access_token[expires_at]=&personal_access_token[scopes][]=api")
+      --data-urlencode "authenticity_token=$csrfToken" \
+      --data "personal_access_token[name]=$GITLAB_TOKEN_NAME&personal_access_token[expires_at]=&personal_access_token[scopes][]=api")
 
     rm -f "$COOKIES_FILE"
-    echo "$htmlContent" \
+    echo $htmlContent \
       | sed 's/.*created-personal-access-token" value="\([^ ]*\)".*/\1/' \
       | sed -n 1p
   else
@@ -81,17 +81,18 @@ getGitlabToken() {
 # Execution
 
 gitlabUrl="${GITLAB_URL:-https://gitlab.com}"
+ksClusterName="${KUBE_CLUSTER_NAME:-staging}"
 
 echo "Login to $GITLAB_URL"
 read -p 'username: ' gitlabUser </dev/tty
 read -s -p 'password: ' gitlabPass </dev/tty
 echo -e "\nGitLab authentication..."
 
-gitlabToken=$(getGitlabToken "$gitlabUrl" "$gitlabUser" "$gitlabPass")
+gitlabToken=$(generateGitlabToken "$gitlabUrl" \
+  "$gitlabUser" "$gitlabPass" "kubernetes $ksClusterName")
 if [ "$?" -eq 0 ]; then
   echo "GitLab Token: $gitlabToken"
 
-  ksClusterName="${KUBE_CLUSTER_NAME:-staging}"
   ksClusterApi="${KUBE_CLUSTER_API:-https://127.0.0.1:443}"
   ksClusterNamespaces="${KUBE_NAMESPACES:-default}"
 
@@ -101,7 +102,7 @@ if [ "$?" -eq 0 ]; then
       --insecure-skip-tls-verify=true
 
   runCmd \
-    kubectl config set-credentials gitlab.$gitlabUser \
+    kubectl config set-credentials $gitlabUser \
       --token $gitlabToken
 
   for namespace in $(echo $ksClusterNamespaces | tr "," "\n")
@@ -110,7 +111,7 @@ if [ "$?" -eq 0 ]; then
       kubectl config set-context $namespace \
         --namespace=$namespace \
         --cluster=$ksClusterName \
-        --user=gitlab.$gitlabUser
+        --user=$gitlabUser
   done
 
 else
