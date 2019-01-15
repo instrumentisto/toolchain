@@ -49,14 +49,13 @@ getGitlabToken() {
     | sed 's/.*<form class="new_user[^<]*\(<[^<]*\)\{2\}authenticity_token" value="\([^ ]*\)".*/\2/' \
     | sed -n 1p)
 
-  curl -b "$COOKIES_FILE" -c "$COOKIES_FILE" -s --output /dev/null \
+  curl -b "$COOKIES_FILE" -c "$COOKIES_FILE" -s --output=/dev/null \
     -i "$GITLAB_URL/users/sign_in" \
-    --data "user[login]=$GITLAB_USER&user[password]=$GITLAB_PASS" \
-    --data-urlencode "authenticity_token=$csrfToken"
+    --data="user[login]=$GITLAB_USER&user[password]=$GITLAB_PASS" \
+    --data-urlencode="authenticity_token=$csrfToken"
 
-  if [ "$(cat $COOKIES_FILE \
-          | grep _gitlab_session \
-          | awk '{print $5}')" == "0" ]; then
+  if [ "$(cat $COOKIES_FILE | grep _gitlab_session \
+                            | awk '{print $5}')" == "0" ]; then
     local htmlContent=$(curl -H 'user-agent: curl' -b "$COOKIES_FILE" -i \
       "$GITLAB_URL/profile/personal_access_tokens" -s)
     local csrfToken=$(echo $htmlContent \
@@ -65,11 +64,11 @@ getGitlabToken() {
 
     local htmlContent=$(curl -s -L \
       -b "$COOKIES_FILE" "$GITLAB_URL/profile/personal_access_tokens" \
-      --data-urlencode "authenticity_token=$csrfToken" \
-      --data "personal_access_token[name]=$GITLAB_TOKEN_NAME&personal_access_token[expires_at]=&personal_access_token[scopes][]=api")
+      --data-urlencode="authenticity_token=$csrfToken" \
+      --data="personal_access_token[name]=$GITLAB_TOKEN_NAME&personal_access_token[expires_at]=&personal_access_token[scopes][]=api")
 
-    rm "$COOKIES_FILE"
-    echo $htmlContent \
+    rm -f "$COOKIES_FILE"
+    echo "$htmlContent" \
       | sed 's/.*created-personal-access-token" value="\([^ ]*\)".*/\1/' \
       | sed -n 1p
   else
@@ -92,7 +91,7 @@ gitlabToken=$(getGitlabToken "$gitlabUrl" "$gitlabUser" "$gitlabPass")
 if [ "$?" -eq 0 ]; then
   echo "GitLab Token: $gitlabToken"
 
-  ksClusterName="${KUBE_CLUSTER_NAME:-workspace}"
+  ksClusterName="${KUBE_CLUSTER_NAME:-staging}"
   ksClusterApi="${KUBE_CLUSTER_API:-https://127.0.0.1:443}"
   ksClusterNamespaces="${KUBE_NAMESPACES:-default}"
 
