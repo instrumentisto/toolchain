@@ -68,11 +68,42 @@ generateGitlabToken() {
       --data "personal_access_token[name]=$GITLAB_TOKEN_NAME&personal_access_token[expires_at]=&personal_access_token[scopes][]=api")
 
     rm -f "$COOKIES_FILE"
-    echo $htmlContent \
+    local gitlabToken=$(echo $htmlContent \
       | sed 's/.*created-personal-access-token" value="\([^ ]*\)".*/\1/' \
-      | sed -n 1p
+      | sed -n 1p)
+
+    verifyGitlabToken "$GITLAB_URL" "$GITLAB_USER" "$gitlabToken"
+    if [ "$?" -eq 0 ]; then
+      echo $gitlabToken
+    else
+      echo "Token is incorrect"
+      exit 1
+    fi
   else
     echo "Invalid username or password"
+    exit 1
+  fi
+}
+
+# verifyGitlabToken verify Gitlab token
+# Example:
+#   verifyGitlabToken "https://gitlab.com" "user" "token"
+verifyGitlabToken() {
+  local GITLAB_URL=$1
+  local GITLAB_USER=$2
+  local GITLAB_TOKEN=$3
+  local userField=""
+  if [[ $GITLAB_USER =~ .+@.+ ]] ; then
+    userField="email"
+  else
+    userField="username"
+  fi
+
+  local checkUser=$(curl -s -L \
+    "$GITLAB_URL/api/v4/user?private_token=$GITLAB_TOKEN" \
+    | sed 's/.*"'$userField'":"\([^,]*\)".*/\1/')
+
+  if [ "$checkUser" != "$GITLAB_USER" ]; then
     exit 1
   fi
 }
