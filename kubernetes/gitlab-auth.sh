@@ -92,11 +92,11 @@ verifyGitlabToken() {
   local GITLAB_URL=$1
   local GITLAB_USER=$2
   local GITLAB_TOKEN=$3
-  local userField=""
+
   if [[ $GITLAB_USER =~ .+@.+ ]] ; then
-    userField="email"
+    local userField="email"
   else
-    userField="username"
+    local userField="username"
   fi
 
   local checkUser=$(curl -s -L \
