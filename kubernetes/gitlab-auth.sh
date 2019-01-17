@@ -48,7 +48,7 @@ genGitlabToken() {
 
   # 1. Sign in into GitLab via username and password.
   local htmlContent=$(curl -c "$COOKIES_FILE" -i "$GITLAB_URL/users/sign_in" -s)
-  local csrfToken=$(echo "$htmlContent" \
+  local csrfToken=$(echo $htmlContent \
     | sed 's/.*<form class="new_user[^<]*\(<[^<]*\)\{2\}authenticity_token" value="\([^ ]*\)".*/\2/' \
     | sed -n 1p)
   curl -b "$COOKIES_FILE" -c "$COOKIES_FILE" -s --output /dev/null \
@@ -65,14 +65,14 @@ genGitlabToken() {
   local htmlContent=$(curl -s -H 'user-agent: curl' \
                            -b "$COOKIES_FILE" \
                            -i "$GITLAB_URL/profile/personal_access_tokens")
-  local csrfToken=$(echo "$htmlContent" \
+  local csrfToken=$(echo $htmlContent \
     | sed 's/.*authenticity_token" value="\([^ ]*\)".*/\1/' \
     | sed -n 1p)
   local htmlContent=$(curl -s -L \
     -b "$COOKIES_FILE" "$GITLAB_URL/profile/personal_access_tokens" \
     --data-urlencode "authenticity_token=$csrfToken" \
     --data "personal_access_token[name]=$GITLAB_TOKEN_NAME&personal_access_token[expires_at]=&personal_access_token[scopes][]=api")
-  local gitlabToken=$(echo "$htmlContent" \
+  local gitlabToken=$(echo $htmlContent \
     | sed 's/.*created-personal-access-token" value="\([^ ]*\)".*/\1/' \
     | sed -n 1p)
 
@@ -84,6 +84,8 @@ genGitlabToken() {
     echo "Generated access token is incorrect"
     exit 1
   fi
+
+  echo $gitlabToken
 }
 
 # verifyGitlabToken verifies that given GitLab personal access token
