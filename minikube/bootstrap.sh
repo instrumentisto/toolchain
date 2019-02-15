@@ -213,16 +213,14 @@ MINIKUBE_BOOTSTRAPPER=kubeadm
 MINIKUBE_VM_DRIVER=virtualbox
 case "$OS" in
   darwin)
-    # TODO: Hyperkit driver is still not stable enough. Use with later releases.
-    #MINIKUBE_VM_DRIVER=hyperkit
+    MINIKUBE_VM_DRIVER=hyperkit
     ;;
 esac
 
 case "$OS" in
   darwin)
     upgradeHomebrewPackages
-    # TODO: Hyperkit driver is still not stable enough. Use with later releases.
-    #installHyperkitDriver
+    installHyperkitDriver
     ;;
   windows)
     upgradeChocoPackages
