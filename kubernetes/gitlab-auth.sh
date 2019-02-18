@@ -44,7 +44,7 @@ genGitlabToken() {
   local GITLAB_PASS="$3"
   local GITLAB_TOKEN_NAME="$4"
 
-  local COOKIES_FILE="$(mktemp --suffix=cookies)"
+  local COOKIES_FILE="$(mktemp)"
 
   # 1. Sign in into GitLab via username and password.
   local htmlContent=$(curl -c "$COOKIES_FILE" -i "$GITLAB_URL/users/sign_in" -s)
@@ -117,7 +117,7 @@ verifyGitlabToken() {
 gitlabUrl="${GITLAB_URL:-https://gitlab.com}"
 k8sCluster="${K8S_CLUSTER:-staging}"
 
-echo "Login to $GITLAB_URL"
+echo "Login to $gitlabUrl"
 read -p 'username: ' gitlabUser </dev/tty
 read -s -p 'password: ' gitlabPass </dev/tty
 echo -e "\nGitLab authentication..."
@@ -131,7 +131,8 @@ fi
 echo "GitLab Token: $gitlabToken"
 
 k8sApi="${K8S_API:-https://127.0.0.1:443}"
-k8sNamespaces="${K8S_NAMESPACES:-default}"
+k8sNamespaces=($(echo ${K8S_NAMESPACES:-default} | tr "," " "))
+k8sContexts=($(echo ${K8S_CONTEXTS:-default} | tr "," " "))
 
 runCmd \
   kubectl config set-cluster $k8sCluster \
@@ -142,10 +143,10 @@ runCmd \
   kubectl config set-credentials $gitlabUser \
     --token $gitlabToken
 
-for namespace in $(echo $k8sNamespaces | tr "," "\n"); do
+for index in "${!k8sNamespaces[@]}"; do 
   runCmd \
-    kubectl config set-context $namespace \
-      --namespace=$namespace \
+    kubectl config set-context ${k8sContexts[$index]} \
+      --namespace=${k8sNamespaces[$index]} \
       --cluster=$k8sCluster \
       --user=$gitlabUser
 done
