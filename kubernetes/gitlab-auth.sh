@@ -122,7 +122,7 @@ k8sNamespaces=($(echo ${K8S_NAMESPACES:-default} | tr "," " "))
 k8sContexts=($(echo ${K8S_CONTEXTS:-default} | tr "," " "))
 
 if [ "${#k8sNamespaces[@]}" -ne "${#k8sContexts[@]}" ]; then
-  echo "Error: count of namespaces and contexts must be equal"; exit 1;
+  echo "Error: number of namespaces and contexts must be equal"; exit 1;
 fi
 
 echo "Login to $gitlabUrl"
