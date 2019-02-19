@@ -208,14 +208,16 @@ set -e
 initArch
 initOS
 
-MINIKUBE_K8S_VER=v1.13.3
-MINIKUBE_BOOTSTRAPPER=kubeadm
-MINIKUBE_VM_DRIVER=virtualbox
-case "$OS" in
-  darwin)
-    MINIKUBE_VM_DRIVER=hyperkit
-    ;;
-esac
+MINIKUBE_K8S_VER=${MINIKUBE_K8S_VER:-v1.13.3}
+MINIKUBE_BOOTSTRAPPER=${MINIKUBE_BOOTSTRAPPER:-kubeadm}
+if [ -z "$MINIKUBE_VM_DRIVER" ]; then
+  MINIKUBE_VM_DRIVER=virtualbox  
+  case "$OS" in
+    darwin)
+      MINIKUBE_VM_DRIVER=hyperkit
+      ;;
+  esac
+fi
 
 case "$OS" in
   darwin)
