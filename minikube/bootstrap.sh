@@ -222,7 +222,9 @@ fi
 case "$OS" in
   darwin)
     upgradeHomebrewPackages
-    installHyperkitDriver
+    if [ "$MINIKUBE_VM_DRIVER" == "hyperkit" ]; then
+      installHyperkitDriver
+    fi
     ;;
   windows)
     upgradeChocoPackages
