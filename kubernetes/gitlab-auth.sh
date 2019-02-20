@@ -115,14 +115,13 @@ verifyGitlabToken() {
 ## Execution
 
 gitlabUrl="${GITLAB_URL:-https://gitlab.com}"
-k8sCluster="${K8S_CLUSTER:-staging}"
-
 k8sApi="${K8S_API:-https://127.0.0.1:443}"
-k8sNamespaces=($(echo ${K8S_NAMESPACES:-default} | tr "," " "))
+k8sCluster="${K8S_CLUSTER:-staging}"
 k8sContexts=($(echo ${K8S_CONTEXTS:-default} | tr "," " "))
-
-if [ "${#k8sNamespaces[@]}" -ne "${#k8sContexts[@]}" ]; then
-  echo "Error: number of namespaces and contexts must be equal"; exit 1;
+k8sNamespaces=($(echo ${K8S_NAMESPACES:-default} | tr "," " "))
+if [[ "${#k8sNamespaces[@]}" -ne "${#k8sContexts[@]}" ]]; then
+  echo "Error: number of namespaces and contexts must be equal"
+  exit 1
 fi
 
 echo "Login to $gitlabUrl"
@@ -147,10 +146,10 @@ runCmd \
   kubectl config set-credentials $gitlabUser \
     --token $gitlabToken
 
-for index in "${!k8sNamespaces[@]}"; do 
+for i in "${!k8sNamespaces[@]}"; do
   runCmd \
-    kubectl config set-context ${k8sContexts[$index]} \
-      --namespace=${k8sNamespaces[$index]} \
+    kubectl config set-context ${k8sContexts[$i]} \
+      --namespace=${k8sNamespaces[$i]} \
       --cluster=$k8sCluster \
       --user=$gitlabUser
 done
