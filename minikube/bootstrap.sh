@@ -211,7 +211,7 @@ initOS
 MINIKUBE_K8S_VER=v${MINIKUBE_K8S_VER:-1.13.3}
 MINIKUBE_BOOTSTRAPPER=${MINIKUBE_BOOTSTRAPPER:-kubeadm}
 if [ -z "$MINIKUBE_VM_DRIVER" ]; then
-  MINIKUBE_VM_DRIVER=virtualbox  
+  MINIKUBE_VM_DRIVER=virtualbox
   case "$OS" in
     darwin)
       MINIKUBE_VM_DRIVER=hyperkit
@@ -234,10 +234,15 @@ case "$OS" in
     ;;
 esac
 
+if [[ ! -z "${MINIKUBE_NODE_IP}" ]]; then
+  MINIKUBE_NODE_IP="--extra-config kubelet.node-ip=${MINIKUBE_NODE_IP}"
+fi
+
 runIfNot "minikube status | grep 'minikube:' | grep 'Running'" \
   minikube start --bootstrapper=$MINIKUBE_BOOTSTRAPPER \
                  --kubernetes-version=$MINIKUBE_K8S_VER \
                  --vm-driver=$MINIKUBE_VM_DRIVER \
+                 ${MINIKUBE_NODE_IP} \
                  --disk-size=10g
 
 runIfNot "minikube addons list | grep 'ingress' | grep 'enabled'" \
