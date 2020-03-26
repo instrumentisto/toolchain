@@ -183,6 +183,7 @@ initOS
 
 MINIKUBE_K8S_VER=v${MINIKUBE_K8S_VER:-1.17.4}
 MINIKUBE_BOOTSTRAPPER=${MINIKUBE_BOOTSTRAPPER:-kubeadm}
+MINIKUBE_DISK_SIZE=${MINIKUBE_DISK_SIZE:-10g}
 if [ -z "$MINIKUBE_VM_DRIVER" ]; then
   MINIKUBE_VM_DRIVER=virtualbox
   case "$OS" in
@@ -216,7 +217,7 @@ runIfNot "minikube status | grep 'minikube:' | grep 'Running'" \
                  --kubernetes-version=$MINIKUBE_K8S_VER \
                  --vm-driver=$MINIKUBE_VM_DRIVER \
                  ${MINIKUBE_NODE_IP} \
-                 --disk-size=10g
+                 --disk-size=${MINIKUBE_DISK_SIZE}
 
 runIfNot "minikube addons list | grep 'ingress' | grep 'enabled'" \
   minikube addons enable ingress
