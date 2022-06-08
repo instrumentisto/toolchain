@@ -42,8 +42,7 @@ genGitlabToken() {
   local GITLAB_URL="$1"
   local GITLAB_USER="$2"
   local GITLAB_PASS="$3"
-  local GITLAB_2FA_CODE="$4"
-  local GITLAB_TOKEN_NAME="$5"
+  local GITLAB_TOKEN_NAME="$4"
 
   local COOKIES_FILE="$(mktemp)"
 
@@ -55,14 +54,15 @@ genGitlabToken() {
     -i "$GITLAB_URL/users/sign_in" \
     --data "user[login]=$GITLAB_USER&user[password]=$GITLAB_PASS" \
     --data-urlencode "authenticity_token=$csrfToken")
-  # 1.1. Sign in into GitLab via username and password.
+  # 1.1. Sign in into GitLab via 2FA code.
   local csrfToken=$(echo $htmlContent \
     | sed -n 's/.*<form class="edit_user[^<]*\(<[^<]*\)\{1\}authenticity_token" value="\([^"]*\)".*/\2/p')
   if [[ $csrfToken != "" ]]; then
+    read -p "2FA code: " GITLAB_2FA_CODE </dev/tty
     curl -b "$COOKIES_FILE" -c "$COOKIES_FILE" -s \
-        -i "$GITLAB_URL/users/sign_in" \
-        --data "user[otp_attempt]=$GITLAB_2FA_CODE" \
-        --data-urlencode "authenticity_token=$csrfToken"
+      -i "$GITLAB_URL/users/sign_in" \
+      --data "user[otp_attempt]=$GITLAB_2FA_CODE" \
+      --data-urlencode "authenticity_token=$csrfToken" >/dev/null
   fi
   if [[ "$(cat $COOKIES_FILE | grep _gitlab_session \
                             | awk '{print $5}')" != "0" ]]; then
@@ -136,12 +136,10 @@ fi
 echo "Login to $gitlabUrl"
 read -p 'username: ' gitlabUser </dev/tty
 read -s -p 'password: ' gitlabPass </dev/tty
-echo ""
-read -p "2FA code (leave it empty if provided account doesn't have 2FA): " gitlab2faCode </dev/tty
 echo -e "\nGitLab authentication..."
 
 gitlabToken=$(genGitlabToken \
-  "$gitlabUrl" "$gitlabUser" "$gitlabPass" "$gitlab2faCode" "k8s-auth-$k8sCluster")
+  "$gitlabUrl" "$gitlabUser" "$gitlabPass" "k8s-auth-$k8sCluster")
 if [[ "$?" -ne 0 ]]; then
   echo "GitLab error: $gitlabToken"
   exit 1
