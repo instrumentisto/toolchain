@@ -54,11 +54,13 @@ genGitlabToken() {
     -i "$GITLAB_URL/users/sign_in" \
     --data "user[login]=$GITLAB_USER&user[password]=$GITLAB_PASS" \
     --data-urlencode "authenticity_token=$csrfToken")
-  # 1.1. Sign in into GitLab via 2FA code.
+  # Check whether 2FA code is required.
   local csrfToken=$(echo $htmlContent \
     | sed -n 's/.*<form class="edit_user[^<]*\(<[^<]*\)\{1\}authenticity_token" value="\([^"]*\)".*/\2/p')
   if [[ $csrfToken != "" ]]; then
+    # Ask user for 2FA code.
     read -p "2FA code: " GITLAB_2FA_CODE </dev/tty
+    # Finish signing in using the prompted 2FA code.
     curl -b "$COOKIES_FILE" -c "$COOKIES_FILE" -s \
       -i "$GITLAB_URL/users/sign_in" \
       --data "user[otp_attempt]=$GITLAB_2FA_CODE" \
