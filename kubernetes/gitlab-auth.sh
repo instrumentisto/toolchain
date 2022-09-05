@@ -77,15 +77,13 @@ genGitlabToken() {
                            -b "$COOKIES_FILE" \
                            -i "$GITLAB_URL/-/profile/personal_access_tokens")
   local csrfToken=$(echo $htmlContent \
-    | sed 's/.*authenticity_token" value="\([^ ]*\)".*/\1/' \
+    | sed 's/.*name="csrf-token" content="\([^ ]*\)".*/\1/' \
     | sed -n 1p)
   local htmlContent=$(curl -s -L \
     -b "$COOKIES_FILE" "$GITLAB_URL/-/profile/personal_access_tokens" \
     --data-urlencode "authenticity_token=$csrfToken" \
     --data "personal_access_token[name]=$GITLAB_TOKEN_NAME&personal_access_token[expires_at]=&personal_access_token[scopes][]=api")
-  local gitlabToken=$(echo $htmlContent \
-    | sed 's/.*created-personal-access-token" value="\([^ ]*\)".*/\1/' \
-    | sed -n 1p)
+  local gitlabToken=$(echo $htmlContent | jq -r '.new_token')
 
   rm -f "$COOKIES_FILE"
 
@@ -116,7 +114,7 @@ verifyGitlabToken() {
 
   local checkUser=$(curl -s -L \
                          "$GITLAB_URL/api/v4/user?private_token=$GITLAB_TOKEN" \
-    | sed 's/.*"'$userField'":"\([^,]*\)".*/\1/')
+    | jq -r ".$userField")
   if [[ "$checkUser" != "$GITLAB_USER" ]]; then
     return 1
   fi
