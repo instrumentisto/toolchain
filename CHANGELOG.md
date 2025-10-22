@@ -13,6 +13,7 @@ All user visible changes to this project will be documented in this file. This p
 ### Upgraded
 
 - [DigitalOcean CLI] 1.146.0: <https://github.com/digitalocean/doctl/releases/tag/v1.146.0>
+- [Hetzner Cloud CLI] 1.55.0: <https://github.com/hetznercloud/cli/releases/tag/v1.55.0>
 
 
 
