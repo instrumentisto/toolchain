@@ -12,6 +12,7 @@ All user visible changes to this project will be documented in this file. This p
 
 ### Upgraded
 
+- [Biome] 2.2.7: <https://github.com/biomejs/biome/releases/tag/%40biomejs%2Fbiome%402.2.7>
 - [Deno] 2.5.4: <https://github.com/denoland/deno/releases/tag/v2.5.4>
 - [DigitalOcean CLI] 1.146.0: <https://github.com/digitalocean/doctl/releases/tag/v1.146.0>
 - [Hetzner Cloud CLI] 1.55.0: <https://github.com/hetznercloud/cli/releases/tag/v1.55.0>
