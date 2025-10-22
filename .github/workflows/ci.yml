@@ -43,7 +43,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - uses: docker://ghcr.io/biomejs/biome:2.2.5
+      - uses: docker://ghcr.io/biomejs/biome:2.2.7
         with:
           args: format .
 
