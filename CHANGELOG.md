@@ -14,6 +14,7 @@ All user visible changes to this project will be documented in this file. This p
 
 - [DigitalOcean CLI] 1.146.0: <https://github.com/digitalocean/doctl/releases/tag/v1.146.0>
 - [Hetzner Cloud CLI] 1.55.0: <https://github.com/hetznercloud/cli/releases/tag/v1.55.0>
+- [Terraform] 1.13.4: <https://github.com/hashicorp/terraform/releases/tag/v1.13.4>
 
 
 
