@@ -6,6 +6,18 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
+## [1.2.1] · 2025-10-27
+[1.2.1]: /../../tree/1.2.1
+
+[Diff](/../../compare/1.2.0...1.2.1)
+
+### Upgraded
+
+- [Biome] 2.3.1: <https://github.com/biomejs/biome/releases/tag/%40biomejs%2Fbiome%402.3.1>
+
+
+
+
 ## [1.2.0] · 2025-10-24
 [1.2.0]: /../../tree/1.2.0
 
