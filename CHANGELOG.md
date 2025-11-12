@@ -14,6 +14,7 @@ All user visible changes to this project will be documented in this file. This p
 ### Upgraded
 
 - [Biome] 2.3.5: <https://github.com/biomejs/biome/releases/tag/%40biomejs%2Fbiome%402.3.5>
+- [Kubernetes CLI] 1.34.2: <https://github.com/kubernetes/kubernetes/blob/4b20e5c3fe37533984fbf60bc1acfa01380a2bb0/CHANGELOG/CHANGELOG-1.34.md#changelog-since-v1341>
 
 
 
