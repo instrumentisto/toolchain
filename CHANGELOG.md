@@ -10,6 +10,10 @@ All user visible changes to this project will be documented in this file. This p
 
 [Diff](/../../compare/2.0.1...main)
 
+### Upgraded
+
+- [Terraform] 1.14.0: <https://github.com/hashicorp/terraform/releases/tag/v1.14.0>
+
 ### Security updated
 
 - [Debian Linux] "trixie" 20251117 (13.2): <https://github.com/docker-library/official-images/commit/215fa7075010e3f2da20008b1a3a223b788beb0d>
