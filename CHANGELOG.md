@@ -6,6 +6,17 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
+## main
+
+[Diff](/../../compare/2.1.1...main)
+
+### Upgraded
+
+- [Helm] 4.0.1: <https://github.com/helm/helm/releases/tag/v4.0.1>
+
+
+
+
 ## [2.1.1] · 2025-11-21
 [2.1.1]: /../../tree/2.1.1
 
