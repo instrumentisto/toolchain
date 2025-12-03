@@ -6,6 +6,17 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
+## main
+
+[Diff](/../../compare/2.1.3...main)
+
+### Upgraded
+
+- [Terraform] 1.14.1: <https://github.com/hashicorp/terraform/releases/tag/v1.14.1>
+
+
+
+
 ## [2.1.3] · 2025-11-27
 [2.1.3]: /../../tree/2.1.3
 
