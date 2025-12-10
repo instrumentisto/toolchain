@@ -6,6 +6,15 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
+## main
+
+[Diff](/../../compare/2.1.4...main)
+
+- [DigitalOcean CLI] 1.148.0: <https://github.com/digitalocean/doctl/releases/tag/v1.148.0>
+
+
+
+
 ## [2.1.4] · 2025-12-03
 [2.1.4]: /../../tree/2.1.4
 
