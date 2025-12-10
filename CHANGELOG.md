@@ -11,6 +11,7 @@ All user visible changes to this project will be documented in this file. This p
 [Diff](/../../compare/2.1.4...main)
 
 - [DigitalOcean CLI] 1.148.0: <https://github.com/digitalocean/doctl/releases/tag/v1.148.0>
+- [Kubernetes CLI] 1.34.3: <https://github.com/kubernetes/kubernetes/blob/f887a29fe220c1013ae09699bb301040beb5c86e/CHANGELOG/CHANGELOG-1.34.md#changelog-since-v1342>
 
 
 
