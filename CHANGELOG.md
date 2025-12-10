@@ -6,10 +6,37 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
-## main
+## [3.0.0] · 2025-12-10
+[3.0.0]: /../../tree/3.0.0
 
-[Diff](/../../compare/2.1.4...main)
+[Diff](/../../compare/2.1.4...3.0.0)
 
+### Added
+
+- [Vim] to use as the default editor inside the toolchain container.
+
+### Changed
+
+- Disable checks for newer [Deno] versions.
+- Use fixed versions for [pip] packages.
+
+### Upgraded
+
+- [Python] 3.13.11: <https://docs.python.org/3.13/whatsnew/changelog.html#python-3-13-11-final>
+- [Ansible] 11.12.0: <https://github.com/ansible-community/ansible-build-data/blob/11.12.0/11/CHANGELOG-v11.md#release-summary>
+- [Ansible] roles:
+    - [`instrumentisto.coreos-bootstrap`] 4.0.1: <https://github.com/instrumentisto/ansible-coreos-bootstrap/blob/main/CHANGELOG.md#401--2025-12-10>
+- [Ansible] collections:
+    - [`community.general`] 11.4.1: <https://github.com/ansible-collections/community.general/blob/11.4.1/CHANGELOG.md#v11-4-1>
+    - [`containers.podman`] 1.18.0: <https://github.com/containers/ansible-podman-collections/blob/1.18.0/CHANGELOG.rst#v1-18-0>
+    - [`hetzner.hcloud`] 6.0.0: <https://github.com/ansible-collections/hetzner.hcloud/releases/tag/6.0.0>
+    - [`kubernetes.core`] 6.2.0: <https://github.com/ansible-collections/kubernetes.core/blob/6.2.0/CHANGELOG.rst#v6-2-0>
+- [pip] packages:
+    - [`jmespath`] 1.0.1: <https://github.com/jmespath/jmespath.py/blob/develop/CHANGELOG.rst#101>
+    - [`hcloud`] 2.9.0: <https://github.com/hetznercloud/hcloud-python/blob/main/CHANGELOG.md#v290>
+    - [`kubernetes-validate`] 1.34.1: <https://github.com/willthames/kubernetes-validate/releases/tag/v1.34.1>
+    - [`kubernetes`] 34.1.0: <https://github.com/kubernetes-client/python/blob/master/CHANGELOG.md#v3410b1>
+    - [`netaddr`] 1.3.0: <https://netaddr.readthedocs.io/en/latest/changes.html#release-1-3-0>
 - [DigitalOcean CLI] 1.148.0: <https://github.com/digitalocean/doctl/releases/tag/v1.148.0>
 - [Kubernetes CLI] 1.34.3: <https://github.com/kubernetes/kubernetes/blob/f887a29fe220c1013ae09699bb301040beb5c86e/CHANGELOG/CHANGELOG-1.34.md#changelog-since-v1342>
 
@@ -303,18 +330,24 @@ All user visible changes to this project will be documented in this file. This p
 - [Jsonnet Bundler] 0.6.0: <https://github.com/jsonnet-bundler/jsonnet-bundler/releases/tag/v0.6.0>
 - [Kubernetes CLI] 1.34.1: <https://github.com/kubernetes/kubernetes/blob/70af7708fcc585a717f9208f83a4351585440bab/CHANGELOG/CHANGELOG-1.34.md#changelog-since-v1340>
 - [Python] 3.13.7: <https://docs.python.org/3.13/whatsnew/changelog.html#python-3-13-7-final>
-- [pip] packages: `jmespath`, `hcloud`, `kubernetes-validate`, `kubernetes`, `netaddr`
+- [pip] packages: [`jmespath`], [`hcloud`], [`kubernetes-validate`], [`kubernetes`], [`netaddr`]
 - [Terraform] 1.13.3: <https://github.com/hashicorp/terraform/releases/tag/v1.13.3>
 
 
 
 
+[`instrumentisto.coreos-bootstrap`]: https://github.com/instrumentisto/ansible-coreos-bootstrap
 [`community.digitalocean`]: https://galaxy.ansible.com/ui/repo/published/community/digitalocean
 [`community.general`]: https://galaxy.ansible.com/ui/repo/published/community/general
 [`containers.podman`]: https://galaxy.ansible.com/ui/repo/published/containers/podman
 [`hetzner.hcloud`]: https://galaxy.ansible.com/ui/repo/published/hetzner/hcloud
 [`kubernetes.core`]: https://galaxy.ansible.com/ui/repo/published/kubernetes/core
 [`vultr.cloud`]: https://galaxy.ansible.com/ui/repo/published/vultr/cloud
+[`hcloud`]: https://pypi.org/project/hcloud
+[`jmespath`]: https://pypi.org/project/jmespath
+[`kubernetes-validate`]: https://pypi.org/project/kubernetes-validate
+[`kubernetes`]: https://pypi.org/project/kubernetes
+[`netaddr`]: https://pypi.org/project/netaddr
 [Ansible]: https://redhat.com/ansible-collaborative
 [Biome]: https://biomejs.dev
 [Butane]: https://coreos.github.io/butane
@@ -330,3 +363,4 @@ All user visible changes to this project will be documented in this file. This p
 [Python]: https://python.org
 [Semantic Versioning 2.0.0]: https://semver.org
 [Terraform]: https://hashicorp.com/products/terraform
+[Vim]: https://www.vim.org

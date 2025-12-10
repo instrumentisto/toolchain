@@ -1,9 +1,9 @@
-ARG python_ver=3.13.7
+ARG python_ver=3.13.11
 # https://hub.docker.com/_/python/
 FROM python:${python_ver}-slim-trixie
 
-ARG image_ver=2.1.4
-ARG ansible_ver=9.13.0
+ARG image_ver=3.0.0
+ARG ansible_ver=11.12.0
 ARG biome_ver=2.3.8
 ARG butane_ver=0.25.1
 ARG deno_ver=2.5.6
@@ -18,6 +18,12 @@ ARG terraform_ver=1.14.1
 # Indication that the current context is inside this toolchain container.
 ENV TOOLCHAIN=1
 
+# Set Vim as the default editor explicitly.
+ENV EDITOR=vim
+
+# Disable checks for newer Deno versions.
+ENV DENO_NO_UPDATE_CHECK=1
+
 # Prepare project directory.
 RUN mkdir -p /app/
 WORKDIR /app/
@@ -29,6 +35,7 @@ RUN apt-get update \
             ca-certificates \
             curl \
             git \
+            vim \
             libvirt-clients \
             make \
             rsync \
