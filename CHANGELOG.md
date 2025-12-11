@@ -12,6 +12,7 @@ All user visible changes to this project will be documented in this file. This p
 
 - [Deno] 2.6.0: <https://github.com/denoland/deno/releases/tag/v2.6.0>
 - [DigitalOcean CLI] 1.148.0: <https://github.com/digitalocean/doctl/releases/tag/v1.148.0>
+- [Helm] 4.0.2: <https://github.com/helm/helm/releases/tag/v4.0.2>
 - [Kubernetes CLI] 1.34.3: <https://github.com/kubernetes/kubernetes/blob/f887a29fe220c1013ae09699bb301040beb5c86e/CHANGELOG/CHANGELOG-1.34.md#changelog-since-v1342>
 
 ### Security updated
