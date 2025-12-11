@@ -9,32 +9,29 @@
       "matchFileNames": ["Dockerfile"]
     },
     {
-      "addLabels": ["python"],
-      "matchDepNames": ["library/python"]
-    },
-    {
       "addLabels": ["k::toolchain"],
       "matchFileNames": ["biome.json"]
     },
     {
+      "addLabels": ["python"],
+      "groupName": "ansible",
+      "matchDepNames": ["library/python"]
+    },
+    {
       "addLabels": ["ansible"],
+      "groupName": "ansible",
+      "matchPackageNames": ["ansible"]
+    },
+    {
       "groupName": "ansible",
       "matchFileNames": [
         "ansible/pip.requirements.txt",
         "ansible/ansible-galaxy.deps.yml"
       ]
-    },
-    {
-      "addLabels": ["ansible"],
-      "groupName": "ansible",
-      "matchPackageNames": ["ansible", "library/python"],
-      "matchFileNames": ["Dockerfile"]
     }
   ],
-  "pip_requirements": {
-    "managerFilePatterns": ["ansible/pip.requirements.txt"]
-  },
   "ansible-galaxy": {
+    "addLabels": ["ansible"],
     "managerFilePatterns": ["ansible/ansible-galaxy.deps.yml"]
   },
   "github-actions": {
@@ -43,6 +40,10 @@
   "npm": {
     "addLabels": ["npm", "k::toolchain"],
     "rangeStrategy": "replace"
+  },
+  "pip_requirements": {
+    "addLabels": ["python"],
+    "managerFilePatterns": ["ansible/pip.requirements.txt"]
   },
   "customManagers": [
     {

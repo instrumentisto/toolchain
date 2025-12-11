@@ -2,14 +2,14 @@ ARG python_ver=3.13.11
 # https://hub.docker.com/_/python/
 FROM python:${python_ver}-slim-trixie
 
-ARG image_ver=3.0.0
+ARG image_ver=2.1.4
 ARG ansible_ver=11.12.0
 ARG biome_ver=2.3.8
 ARG butane_ver=0.25.1
-ARG deno_ver=2.5.6
+ARG deno_ver=2.6.0
 ARG doctl_ver=1.148.0
 ARG hcloud_ver=1.57.0
-ARG helm_ver=4.0.1
+ARG helm_ver=4.0.2
 ARG jsonnet_ver=0.21.0
 ARG jsonnet_bundler_ver=0.6.0
 ARG kubectl_ver=1.34.3
@@ -17,12 +17,6 @@ ARG terraform_ver=1.14.1
 
 # Indication that the current context is inside this toolchain container.
 ENV TOOLCHAIN=1
-
-# Set Vim as the default editor explicitly.
-ENV EDITOR=vim
-
-# Disable checks for newer Deno versions.
-ENV DENO_NO_UPDATE_CHECK=1
 
 # Prepare project directory.
 RUN mkdir -p /app/
@@ -35,15 +29,17 @@ RUN apt-get update \
             ca-certificates \
             curl \
             git \
-            vim \
             libvirt-clients \
             make \
             rsync \
             ssh \
             tini \
+            vim \
             zip unzip \
  && update-ca-certificates \
  && rm -rf /var/lib/apt/lists/*
+# Set Vim as the default editor explicitly.
+ENV EDITOR=vim
 
 # Install Ansible and its dependencies.
 ENV PIPX_BIN_DIR=/usr/local/bin/
@@ -84,6 +80,7 @@ RUN curl -fL -o /usr/local/bin/butane \
          https://raw.githubusercontent.com/coreos/butane/v${butane_ver}/LICENSE
 
 # Install Deno.
+ENV DENO_NO_UPDATE_CHECK=1
 RUN curl -fsSL https://deno.land/install.sh \
     | DENO_INSTALL=/usr/local deno_version=v${deno_ver} sh
 

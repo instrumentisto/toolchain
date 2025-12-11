@@ -6,43 +6,46 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
-## [3.0.0] · 2025-12-10
-[3.0.0]: /../../tree/3.0.0
+## main
 
-[Diff](/../../compare/2.1.4...3.0.0)
+[Diff](/../../compare/2.1.4...main)
 
 ### Added
 
-- [Vim] to use as the default editor inside the toolchain container.
+- [Vim] as the default editor inside container. ([#55])
 
 ### Changed
 
-- Disable checks for newer [Deno] versions.
-- Use fixed versions for [pip] packages.
+- Disable checks for new [Deno] versions with `DENO_NO_UPDATE_CHECK=1` env var. ([#55])
+- Pin versions of [pip] packages. ([#55])
 
 ### Upgraded
 
-- [Python] 3.13.11: <https://docs.python.org/3.13/whatsnew/changelog.html#python-3-13-11-final>
 - [Ansible] 11.12.0: <https://github.com/ansible-community/ansible-build-data/blob/11.12.0/11/CHANGELOG-v11.md#release-summary>
-- [Ansible] roles:
-    - [`instrumentisto.coreos-bootstrap`] 4.0.1: <https://github.com/instrumentisto/ansible-coreos-bootstrap/blob/main/CHANGELOG.md#401--2025-12-10>
 - [Ansible] collections:
     - [`community.general`] 11.4.1: <https://github.com/ansible-collections/community.general/blob/11.4.1/CHANGELOG.md#v11-4-1>
     - [`containers.podman`] 1.18.0: <https://github.com/containers/ansible-podman-collections/blob/1.18.0/CHANGELOG.rst#v1-18-0>
     - [`hetzner.hcloud`] 6.0.0: <https://github.com/ansible-collections/hetzner.hcloud/releases/tag/6.0.0>
     - [`kubernetes.core`] 6.2.0: <https://github.com/ansible-collections/kubernetes.core/blob/6.2.0/CHANGELOG.rst#v6-2-0>
-- [pip] packages:
-    - [`jmespath`] 1.0.1: <https://github.com/jmespath/jmespath.py/blob/develop/CHANGELOG.rst#101>
-    - [`hcloud`] 2.9.0: <https://github.com/hetznercloud/hcloud-python/blob/main/CHANGELOG.md#v290>
-    - [`kubernetes-validate`] 1.34.1: <https://github.com/willthames/kubernetes-validate/releases/tag/v1.34.1>
-    - [`kubernetes`] 34.1.0: <https://github.com/kubernetes-client/python/blob/master/CHANGELOG.md#v3410b1>
-    - [`netaddr`] 1.3.0: <https://netaddr.readthedocs.io/en/latest/changes.html#release-1-3-0>
+- [Ansible] roles:
+    - [`instrumentisto.coreos-bootstrap`] 4.0.1: <https://github.com/instrumentisto/ansible-coreos-bootstrap/blob/4.0.1/CHANGELOG.md#401--2025-12-10>
+- [Deno] 2.6.0: <https://github.com/denoland/deno/releases/tag/v2.6.0>
 - [DigitalOcean CLI] 1.148.0: <https://github.com/digitalocean/doctl/releases/tag/v1.148.0>
+- [Helm] 4.0.2: <https://github.com/helm/helm/releases/tag/v4.0.2>
 - [Kubernetes CLI] 1.34.3: <https://github.com/kubernetes/kubernetes/blob/f887a29fe220c1013ae09699bb301040beb5c86e/CHANGELOG/CHANGELOG-1.34.md#changelog-since-v1342>
+- [Python] 3.13.11: <https://docs.python.org/3.13/whatsnew/changelog.html#python-3-13-11-final>
+- [pip] packages:
+    - [`jmespath`] 1.0.1: <https://github.com/jmespath/jmespath.py/blob/9170711017c2be9e3057a384e4a6061ef71bdc6f/CHANGELOG.rst#101>
+    - [`hcloud`] 2.9.0: <https://github.com/hetznercloud/hcloud-python/blob/v2.9.0/CHANGELOG.md#v290>
+    - [`kubernetes-validate`] 1.34.1: <https://github.com/willthames/kubernetes-validate/releases/tag/v1.34.1>
+    - [`kubernetes`] 34.1.0: <https://github.com/kubernetes-client/python/blob/v34.1.0/CHANGELOG.md#v3410>
+    - [`netaddr`] 1.3.0: <https://netaddr.readthedocs.io/en/latest/changes.html#release-1-3-0>
 
 ### Security updated
 
 - [Debian Linux] "trixie" 20251208 (13.2): <https://github.com/docker-library/official-images/commit/11670f6c414419f5eb6febb8a94978354073a016>
+
+[#55]: /../../pull/55
 
 
 
