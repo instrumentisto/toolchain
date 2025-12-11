@@ -1,9 +1,9 @@
-ARG python_ver=3.13.7
+ARG python_ver=3.13.11
 # https://hub.docker.com/_/python/
 FROM python:${python_ver}-slim-trixie
 
 ARG image_ver=2.1.4
-ARG ansible_ver=9.13.0
+ARG ansible_ver=11.12.0
 ARG biome_ver=2.3.8
 ARG butane_ver=0.25.1
 ARG deno_ver=2.6.0
@@ -34,9 +34,12 @@ RUN apt-get update \
             rsync \
             ssh \
             tini \
+            vim \
             zip unzip \
  && update-ca-certificates \
  && rm -rf /var/lib/apt/lists/*
+# Set Vim as the default editor explicitly.
+ENV EDITOR=vim
 
 # Install Ansible and its dependencies.
 ENV PIPX_BIN_DIR=/usr/local/bin/
@@ -77,6 +80,7 @@ RUN curl -fL -o /usr/local/bin/butane \
          https://raw.githubusercontent.com/coreos/butane/v${butane_ver}/LICENSE
 
 # Install Deno.
+ENV DENO_NO_UPDATE_CHECK=1
 RUN curl -fsSL https://deno.land/install.sh \
     | DENO_INSTALL=/usr/local deno_version=v${deno_ver} sh
 

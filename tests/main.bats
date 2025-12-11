@@ -308,6 +308,13 @@
 }
 
 
+@test "vim runs ok" {
+  run docker run --rm --pull never $IMAGE \
+    vim --help
+  [ "$status" -eq 0 ]
+}
+
+
 @test "virsh runs ok" {
   run docker run --rm --pull never $IMAGE \
     virsh --help
