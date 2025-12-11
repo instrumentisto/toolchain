@@ -3,7 +3,7 @@
 roles:
   - name: instrumentisto.coreos-bootstrap
     src: git+https://github.com/instrumentisto/ansible-coreos-bootstrap
-    version: 4.0.0
+    version: 4.0.1
 
 # Check minimal Ansible version requirements before upgrading collections.
 collections:
@@ -12,16 +12,16 @@ collections:
     version: 1.27.0
   # https://galaxy.ansible.com/ui/repo/published/community/general
   - name: community.general
-    version: 10.5.0
+    version: 11.4.1
   # https://galaxy.ansible.com/ui/repo/published/containers/podman
   - name: containers.podman
-    version: 1.16.3
+    version: 1.18.0
   # https://galaxy.ansible.com/ui/repo/published/hetzner/hcloud
   - name: hetzner.hcloud
-    version: 4.3.0
+    version: 6.0.0
   # https://galaxy.ansible.com/ui/repo/published/kubernetes/core
   - name: kubernetes.core
-    version: 5.2.0
+    version: 6.2.0
   # https://galaxy.ansible.com/ui/repo/published/vultr/cloud
   - name: vultr.cloud
     version: 1.13.0

@@ -2,22 +2,48 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
   "labels": ["enhancement", "k::dependencies"],
+  "separateMajorMinor": false,
   "packageRules": [
     {
-      "matchFileNames": ["biome.json"],
-      "addLabels": ["k::toolchain"]
+      "addLabels": ["docker"],
+      "matchFileNames": ["Dockerfile"]
     },
     {
-      "matchFileNames": ["Dockerfile"],
-      "addLabels": ["docker"]
+      "addLabels": ["k::toolchain"],
+      "matchFileNames": ["biome.json"]
+    },
+    {
+      "addLabels": ["python"],
+      "groupName": "ansible",
+      "matchDepNames": ["library/python"]
+    },
+    {
+      "addLabels": ["ansible"],
+      "groupName": "ansible",
+      "matchPackageNames": ["ansible"]
+    },
+    {
+      "groupName": "ansible",
+      "matchFileNames": [
+        "ansible/pip.requirements.txt",
+        "ansible/ansible-galaxy.deps.yml"
+      ]
     }
   ],
+  "ansible-galaxy": {
+    "addLabels": ["ansible"],
+    "managerFilePatterns": ["ansible/ansible-galaxy.deps.yml"]
+  },
   "github-actions": {
     "addLabels": ["github_actions", "k::toolchain"]
   },
   "npm": {
     "addLabels": ["npm", "k::toolchain"],
     "rangeStrategy": "replace"
+  },
+  "pip_requirements": {
+    "addLabels": ["python"],
+    "managerFilePatterns": ["ansible/pip.requirements.txt"]
   },
   "customManagers": [
     {
