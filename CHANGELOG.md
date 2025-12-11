@@ -40,6 +40,7 @@ All user visible changes to this project will be documented in this file. This p
     - [`kubernetes-validate`] 1.34.1: <https://github.com/willthames/kubernetes-validate/releases/tag/v1.34.1>
     - [`kubernetes`] 34.1.0: <https://github.com/kubernetes-client/python/blob/v34.1.0/CHANGELOG.md#v3410>
     - [`netaddr`] 1.3.0: <https://netaddr.readthedocs.io/en/latest/changes.html#release-1-3-0>
+- [Terraform] 1.14.2: <https://github.com/hashicorp/terraform/releases/tag/v1.14.2>
 
 ### Security updated
 
