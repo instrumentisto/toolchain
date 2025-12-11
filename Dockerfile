@@ -1,4 +1,4 @@
-ARG python_ver=3.13.7
+ARG python_ver=3.14.2
 # https://hub.docker.com/_/python/
 FROM python:${python_ver}-slim-trixie
 
