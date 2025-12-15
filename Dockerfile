@@ -4,7 +4,7 @@ FROM python:${python_ver}-slim-trixie
 
 ARG image_ver=3.0.1
 ARG ansible_ver=11.12.0
-ARG biome_ver=2.3.8
+ARG biome_ver=2.3.9
 ARG butane_ver=0.25.1
 ARG deno_ver=2.6.0
 ARG doctl_ver=1.148.0
