@@ -12,7 +12,7 @@ ARG hcloud_ver=1.57.0
 ARG helm_ver=4.0.4
 ARG jsonnet_ver=0.21.0
 ARG jsonnet_bundler_ver=0.6.0
-ARG kubectl_ver=1.34.3
+ARG kubectl_ver=1.35.0
 ARG terraform_ver=1.14.2
 
 # Indication that the current context is inside this toolchain container.
