@@ -13,6 +13,7 @@ All user visible changes to this project will be documented in this file. This p
 ### Upgraded
 
 - [Kubernetes CLI] 1.35.0: <https://github.com/kubernetes/kubernetes/blob/92d5eb1175391aa3be9f1d23fdda4403bc3468a9/CHANGELOG/CHANGELOG-1.35.md#changelog-since-v1340>
+- [Terraform] 1.14.3: <https://github.com/hashicorp/terraform/releases/tag/v1.14.3>
 
 
 
