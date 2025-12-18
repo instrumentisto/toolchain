@@ -6,6 +6,17 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
+## main
+
+[Diff](/../../compare/3.0.3...main)
+
+### Upgraded
+
+- [Kubernetes CLI] 1.35.0: <https://github.com/kubernetes/kubernetes/blob/92d5eb1175391aa3be9f1d23fdda4403bc3468a9/CHANGELOG/CHANGELOG-1.35.md#changelog-since-v1340>
+
+
+
+
 ## [3.0.3] · 2025-12-16
 [3.0.3]: /../../tree/3.0.3
 
