@@ -6,6 +6,17 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
+## main
+
+[Diff](/../../compare/3.2.0...main)
+
+### Upgraded
+
+- [Deno] 2.6.3: <https://github.com/denoland/deno/releases/tag/v2.6.3>
+
+
+
+
 ## [3.2.0] · 2025-12-19
 [3.2.0]: /../../tree/3.2.0
 
