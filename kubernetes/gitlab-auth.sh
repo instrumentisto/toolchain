@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright 2019-2025  Instrumentisto Team
+# Copyright 2019-2026  Instrumentisto Team
 #
 # The MIT License (MIT)
 #
