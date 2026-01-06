@@ -13,6 +13,7 @@ All user visible changes to this project will be documented in this file. This p
 ### Upgraded
 
 - [Deno] 2.6.4: <https://github.com/denoland/deno/releases/tag/v2.6.4>
+- [Hetzner Cloud CLI] 1.59.0: <https://github.com/hetznercloud/cli/releases/tag/v1.59.0>
 
 
 
