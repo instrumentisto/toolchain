@@ -6,6 +6,17 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
+## main
+
+[Diff](/../../compare/3.3.0...main)
+
+### Security updated
+
+- [Debian Linux] "trixie" 20260112 (13.3): <https://github.com/docker-library/official-images/commit/054c2b9bf3a057eafd9deb35b7a8d523202f20a2>
+
+
+
+
 ## [3.3.0] · 2026-01-06
 [3.3.0]: /../../tree/3.3.0
 
