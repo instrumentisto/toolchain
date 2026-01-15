@@ -10,6 +10,10 @@ All user visible changes to this project will be documented in this file. This p
 
 [Diff](/../../compare/3.3.0...main)
 
+### Upgraded
+
+- [Helm] 4.0.5: <https://github.com/helm/helm/releases/tag/v4.0.5>
+
 ### Security updated
 
 - [Debian Linux] "trixie" 20260112 (13.3): <https://github.com/docker-library/official-images/commit/054c2b9bf3a057eafd9deb35b7a8d523202f20a2>
