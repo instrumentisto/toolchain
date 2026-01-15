@@ -12,6 +12,7 @@ All user visible changes to this project will be documented in this file. This p
 
 ### Upgraded
 
+- [Deno] 2.6.5: <https://github.com/denoland/deno/releases/tag/v2.6.5>
 - [Helm] 4.0.5: <https://github.com/helm/helm/releases/tag/v4.0.5>
 
 ### Security updated
