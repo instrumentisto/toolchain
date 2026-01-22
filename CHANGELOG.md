@@ -12,6 +12,7 @@ All user visible changes to this project will be documented in this file. This p
 
 ### Upgraded
 
+- [Butane] 0.26.0: <https://github.com/coreos/butane/releases/tag/v0.26.0>
 - [Helm] 4.1.0: <https://github.com/helm/helm/releases/tag/v4.1.0>
 
 
