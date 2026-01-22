@@ -13,6 +13,7 @@ All user visible changes to this project will be documented in this file. This p
 ### Upgraded
 
 - [Deno] 2.6.6: <https://github.com/denoland/deno/releases/tag/v2.6.6>
+- [DigitalOcean CLI] 1.149.0: <https://github.com/digitalocean/doctl/releases/tag/v1.149.0>
 
 
 
