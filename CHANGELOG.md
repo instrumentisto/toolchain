@@ -13,6 +13,7 @@ All user visible changes to this project will be documented in this file. This p
 ### Upgraded
 
 - [Biome] 2.3.13: <https://github.com/biomejs/biome/releases/tag/%40biomejs%2Fbiome%402.3.13>
+- [Hetzner Cloud CLI] 1.61.0: <https://github.com/hetznercloud/cli/releases/tag/v1.61.0>
 
 
 
