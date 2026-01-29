@@ -12,6 +12,7 @@ All user visible changes to this project will be documented in this file. This p
 
 ### Upgraded
 
+- [Deno] 2.6.7: <https://github.com/denoland/deno/releases/tag/v2.6.7>
 - [Terraform] 1.14.4: <https://github.com/hashicorp/terraform/releases/tag/v1.14.4>
 
 
