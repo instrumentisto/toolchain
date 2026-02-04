@@ -14,6 +14,7 @@ All user visible changes to this project will be documented in this file. This p
 
 - [Biome] 2.3.13: <https://github.com/biomejs/biome/releases/tag/%40biomejs%2Fbiome%402.3.14>
 - [Deno] 2.6.8: <https://github.com/denoland/deno/releases/tag/v2.6.8>
+- [DigitalOcean CLI] 1.150.0: <https://github.com/digitalocean/doctl/releases/tag/v1.150.0>
 
 ### Security updated
 
