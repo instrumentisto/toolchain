@@ -6,6 +6,21 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
+## main
+
+[Diff](/../../compare/4.2.1...main)
+
+### Upgraded
+
+- [Biome] 2.3.13: <https://github.com/biomejs/biome/releases/tag/%40biomejs%2Fbiome%402.3.14>
+
+### Security updated
+
+- [Debian Linux] "trixie" 20260202 (13.3): <https://github.com/docker-library/official-images/commit/a1113a428d64ec0513f96dd875366d68ea69b94e>
+
+
+
+
 ## [4.2.1] · 2026-01-29
 [4.2.1]: /../../tree/4.2.1
 
