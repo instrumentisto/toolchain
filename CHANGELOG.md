@@ -12,6 +12,7 @@ All user visible changes to this project will be documented in this file. This p
 
 ### Upgraded
 
+- [Deno] 2.6.9: <https://github.com/denoland/deno/releases/tag/v2.6.9>
 - [Kubernetes CLI] 1.35.1: <https://github.com/kubernetes/kubernetes/blob/699d840eb8a912a693993f9887440f14eccbd738/CHANGELOG/CHANGELOG-1.35.md#changelog-since-v1350>
 
 
