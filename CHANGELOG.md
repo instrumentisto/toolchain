@@ -6,6 +6,17 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
+## main
+
+[Diff](/../../compare/4.4.2...main)
+
+### Upgraded
+
+- [Biome] 2.4.4: <https://github.com/biomejs/biome/releases/tag/%40biomejs%2Fbiome%402.4.4>
+
+
+
+
 ## [4.4.2] · 2026-02-20
 [4.4.2]: /../../tree/4.4.2
 
