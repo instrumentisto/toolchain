@@ -10,6 +10,10 @@ All user visible changes to this project will be documented in this file. This p
 
 [Diff](/../../compare/4.5.0...main)
 
+### Upgraded
+
+- [Deno] 2.7.0: <https://github.com/denoland/deno/releases/tag/v2.7.0>
+
 ### Security updated
 
 - [Debian Linux] "trixie" 20260223 (13.3): <https://github.com/docker-library/official-images/commit/1e99ad35cc3f93b79f38bf6144003792f320f0f8>
