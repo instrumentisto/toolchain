@@ -95,7 +95,7 @@
   expected="$output"
 
   run docker run --rm --pull never $IMAGE sh -c \
-    "deno --version | grep 'deno ' | cut -d ' ' -f2 | cut -d '+' -f1"
+    "deno --version | grep 'deno ' | cut -d ' ' -f2"
   [ "$status" -eq 0 ]
   [ ! "$output" = '' ]
   actual="$output"
