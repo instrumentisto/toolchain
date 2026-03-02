@@ -6,6 +6,17 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
+## main
+
+[Diff](/../../compare/4.6.2...main)
+
+### Upgraded
+
+- [Butane] 0.27.0: <https://github.com/coreos/butane/releases/tag/v0.27.0>
+
+
+
+
 ## [4.6.2] · 2026-02-27
 [4.6.2]: /../../tree/4.6.2
 
