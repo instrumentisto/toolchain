@@ -18,7 +18,7 @@ Lifesaving tools used by Instrumentisto Team.
 
 ## Supported tags and respective `Dockerfile` links
 
-- [`4.6.4`, `4.6`, `4`, `latest`][d1]
+- [`4.7.0`, `4.7`, `4`, `latest`][d1]
 
 
 

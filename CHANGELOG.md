@@ -6,9 +6,10 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
-## main
+## [4.7.0] · 2026-03-06
+[4.7.0]: /../../tree/4.7.0
 
-[Diff](/../../compare/4.6.4...main)
+[Diff](/../../compare/4.6.4...4.7.0)
 
 ### Upgraded
 
