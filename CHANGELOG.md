@@ -14,6 +14,7 @@ All user visible changes to this project will be documented in this file. This p
 
 - [Deno] 2.7.5: <https://github.com/denoland/deno/releases/tag/v2.7.5>
 - [Helm] 4.1.3: <https://github.com/helm/helm/releases/tag/v4.1.3>
+- [Terraform] 1.14.7: <https://github.com/hashicorp/terraform/releases/tag/v1.14.7>
 
 
 
