@@ -13,7 +13,7 @@ ARG helm_ver=4.1.3
 ARG jsonnet_ver=0.21.0
 ARG jsonnet_bundler_ver=0.6.0
 ARG kubectl_ver=1.35.2
-ARG terraform_ver=1.14.6
+ARG terraform_ver=1.14.7
 
 # Indication that the current context is inside this toolchain container.
 ENV TOOLCHAIN=1
