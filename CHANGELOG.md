@@ -12,6 +12,7 @@ All user visible changes to this project will be documented in this file. This p
 
 ### Upgraded
 
+- [Biome] 2.4.8: <https://github.com/biomejs/biome/releases/tag/%40biomejs%2Fbiome%402.4.8>
 - [Deno] 2.7.6: <https://github.com/denoland/deno/releases/tag/v2.7.6>
 - [DigitalOcean CLI] 1.152.0: <https://github.com/digitalocean/doctl/releases/tag/v1.152.0>
 - [Kubernetes CLI] 1.35.3: <https://github.com/kubernetes/kubernetes/blob/880a6dda4cb642221ebbc9638f669aaa2adc83a4/CHANGELOG/CHANGELOG-1.35.md#changelog-since-v1352>
