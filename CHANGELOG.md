@@ -6,6 +6,17 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
+## main
+
+[Diff](/../../compare/4.8.1...main)
+
+### Upgraded
+
+- [Hetzner Cloud CLI] 1.62.0: <https://github.com/hetznercloud/cli/releases/tag/v1.62.0>
+
+
+
+
 ## [4.8.1] · 2026-03-19
 [4.8.1]: /../../tree/4.8.1
 
