@@ -120,7 +120,7 @@ RUN curl -fL -o /tmp/helm.tar.gz \
 
 # Install Jsonnet.
 RUN curl -fL -o /tmp/jsonnet.tar.gz \
-         https://github.com/google/go-jsonnet/releases/download/v${jsonnet_ver}/go-jsonnet_${jsonnet_ver}_darwin_amd64.tar.gz \
+         https://github.com/google/go-jsonnet/releases/download/v${jsonnet_ver}/go-jsonnet_${jsonnet_ver}_linux_amd64.tar.gz \
  && tar -xzf /tmp/jsonnet.tar.gz -C /usr/local/bin/ \
         jsonnet jsonnet-deps jsonnet-lint jsonnetfmt \
     \
