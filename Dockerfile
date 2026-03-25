@@ -10,7 +10,7 @@ ARG deno_ver=2.7.7
 ARG doctl_ver=1.153.0
 ARG hcloud_ver=1.62.0
 ARG helm_ver=4.1.3
-ARG jsonnet_ver=0.21.0
+ARG jsonnet_ver=0.22.0
 ARG jsonnet_bundler_ver=0.6.0
 ARG kubectl_ver=1.35.3
 ARG terraform_ver=1.14.8
@@ -120,7 +120,7 @@ RUN curl -fL -o /tmp/helm.tar.gz \
 
 # Install Jsonnet.
 RUN curl -fL -o /tmp/jsonnet.tar.gz \
-         https://github.com/google/go-jsonnet/releases/download/v${jsonnet_ver}/go-jsonnet_Linux_x86_64.tar.gz \
+         https://github.com/google/go-jsonnet/releases/download/v${jsonnet_ver}/go-jsonnet_${jsonnet_ver}_linux_amd64.tar.gz \
  && tar -xzf /tmp/jsonnet.tar.gz -C /usr/local/bin/ \
         jsonnet jsonnet-deps jsonnet-lint jsonnetfmt \
     \
