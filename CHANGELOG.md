@@ -13,6 +13,7 @@ All user visible changes to this project will be documented in this file. This p
 ### Upgraded
 
 - [DigitalOcean CLI] 1.153.0: <https://github.com/digitalocean/doctl/releases/tag/v1.153.0>
+- [Terraform] 1.14.8: <https://github.com/hashicorp/terraform/releases/tag/v1.14.8>
 
 
 
