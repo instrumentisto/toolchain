@@ -6,6 +6,17 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
+## main
+
+[Diff](/../../compare/4.9.0...main)
+
+### Upgraded
+
+- [DigitalOcean CLI] 1.153.0: <https://github.com/digitalocean/doctl/releases/tag/v1.153.0>
+
+
+
+
 ## [4.9.0] · 2026-03-23
 [4.9.0]: /../../tree/4.9.0
 
