@@ -10,6 +10,10 @@ All user visible changes to this project will be documented in this file. This p
 
 [Diff](/../../compare/5.1.0...main)
 
+### Upgraded
+
+- [Hetzner Cloud CLI] 1.62.2: <https://github.com/hetznercloud/cli/releases/tag/v1.62.2>
+
 ### Security updated
 
 - [Debian Linux] "trixie" 20260406 (13.4): <https://github.com/docker-library/official-images/commit/14bc77db7b07b8b0321490adf7e9e152f940f802>
