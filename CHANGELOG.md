@@ -6,9 +6,10 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
-## main
+## [5.1.2] · 2026-04-09
+[5.1.2]: /../../tree/5.1.2
 
-[Diff](/../../compare/5.1.1...main)
+[Diff](/../../compare/5.1.1...5.1.2)
 
 ### Upgraded
 
