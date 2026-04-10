@@ -13,6 +13,7 @@ All user visible changes to this project will be documented in this file. This p
 ### Upgraded
 
 - [Biome] 2.4.11: <https://github.com/biomejs/biome/releases/tag/%40biomejs%2Fbiome%402.4.11>
+- [Deno] 2.7.12: <https://github.com/denoland/deno/releases/tag/v2.7.12>
 
 
 
