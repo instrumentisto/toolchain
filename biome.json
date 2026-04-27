@@ -5,7 +5,7 @@
   },
   "overrides": [
     {
-      "includes": ["*.md"],
+      "includes": ["**/*.md"],
       "formatter": {
         "enabled": false
       }
