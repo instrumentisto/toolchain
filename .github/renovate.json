@@ -13,6 +13,10 @@
       "matchFileNames": ["biome.json"]
     },
     {
+      "groupName": "dependencies",
+      "matchManagers": ["!github-actions"]
+    },
+    {
       "addLabels": ["python"],
       "groupName": "ansible",
       "matchDepNames": ["library/python"]
