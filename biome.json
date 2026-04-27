@@ -3,9 +3,12 @@
   "formatter": {
     "useEditorconfig": true
   },
-  "markdown": {
-    "formatter": {
-      "enabled": false
+  "overrides": [
+    {
+      "includes": ["*.md"],
+      "formatter": {
+        "enabled": false
+      }
     }
-  }
+  ]
 }
