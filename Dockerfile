@@ -6,14 +6,14 @@ ARG image_ver=5.1.3
 ARG ansible_ver=11.12.0
 ARG biome_ver=2.4.13
 ARG butane_ver=0.27.0
-ARG deno_ver=2.7.13
+ARG deno_ver=2.7.14
 ARG doctl_ver=1.155.0
-ARG hcloud_ver=1.63.0
+ARG hcloud_ver=1.64.1
 ARG helm_ver=4.1.4
 ARG jsonnet_ver=0.22.0
 ARG jsonnet_bundler_ver=0.6.0
 ARG kubectl_ver=1.36.0
-ARG terraform_ver=1.14.9
+ARG terraform_ver=1.15.0
 
 # Indication that the current context is inside this toolchain container.
 ENV TOOLCHAIN=1
