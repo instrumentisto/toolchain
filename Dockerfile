@@ -2,7 +2,7 @@ ARG python_ver=3.13.11
 # https://hub.docker.com/_/python/
 FROM python:${python_ver}-slim-trixie
 
-ARG image_ver=5.1.3
+ARG image_ver=6.0.0
 ARG ansible_ver=11.12.0
 ARG biome_ver=2.4.13
 ARG butane_ver=0.27.0
@@ -31,6 +31,8 @@ RUN apt-get update \
             git \
             libvirt-clients \
             make \
+            php \
+            openvpn \
             rsync \
             ssh \
             tini \
@@ -40,6 +42,10 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 # Set Vim as the default editor explicitly.
 ENV EDITOR=vim
+
+# Fix unsupported locale error in Ansible.
+# /etc/profile.d/lang.sh: setlocale: LC_CTYPE: cannot change locale (C.UTF-8)
+RUN sed -i -E '/^\s+SendEnv/ s/\s(LANG|LC_\*)//g' /etc/ssh/ssh_config
 
 # Install Ansible and its dependencies.
 ENV PIPX_BIN_DIR=/usr/local/bin/

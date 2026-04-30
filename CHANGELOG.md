@@ -6,6 +6,34 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
+## [6.0.0] · 2026-04-30
+[6.0.0]: /../../tree/6.0.0
+
+[Diff](/../../compare/5.1.3...6.0.0)
+
+### BC Breaks
+
+- Remove `LANG` and `LC_*` from SSH SendEnv. ([#158])
+
+### Added
+
+- [PHP] interpreter. ([#158])
+- [OpenVPN] application. ([#158])
+
+### Upgraded
+
+- [Deno] 2.7.14: <https://github.com/denoland/deno/releases/tag/v2.7.14>
+- [Biome] 2.4.13: <https://github.com/biomejs/biome/releases/tag/%40biomejs%2Fbiome%402.4.13>
+- [DigitalOcean CLI] 1.155.0: <https://github.com/digitalocean/doctl/releases/tag/v1.155.0>
+- [Hetzner Cloud CLI] 1.64.1: <https://github.com/hetznercloud/cli/releases/tag/v1.64.1>
+- [Terraform] 1.15.0: <https://github.com/hashicorp/terraform/releases/tag/v1.15.0>
+- [Kubernetes CLI] 1.36.0: <https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.36.md>
+
+[#158]: /../../pull/158
+
+
+
+
 ## [5.1.3] · 2026-04-10
 [5.1.3]: /../../tree/5.1.3
 
@@ -929,3 +957,5 @@ All user visible changes to this project will be documented in this file. This p
 [Semantic Versioning 2.0.0]: https://semver.org
 [Terraform]: https://hashicorp.com/products/terraform
 [Vim]: https://www.vim.org
+[PHP]: https://www.php.net
+[OpenVPN]: https://openvpn.net
