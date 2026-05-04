@@ -1,9 +1,9 @@
-ARG python_ver=3.13.11
+ARG python_ver=3.14.4
 # https://hub.docker.com/_/python/
 FROM python:${python_ver}-slim-trixie
 
 ARG image_ver=6.0.0
-ARG ansible_ver=11.12.0
+ARG ansible_ver=13.6.0
 ARG biome_ver=2.4.13
 ARG butane_ver=0.27.0
 ARG deno_ver=2.7.14
