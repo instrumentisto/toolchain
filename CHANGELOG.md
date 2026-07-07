@@ -6,6 +6,36 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
+## [6.1.0] · 2026-07-07
+[6.1.0]: /../../tree/6.1.0
+
+[Diff](/../../compare/6.0.0...6.1.0)
+
+### Upgraded
+
+- [Ansible] collections:
+    - [`community.general`] 13.1.0: <https://github.com/ansible-collections/community.general/blob/13.1.0/CHANGELOG.md#v13-1-0>
+    - [`containers.podman`] 1.20.2: <https://github.com/containers/ansible-podman-collections/blob/1.20.2/CHANGELOG.rst#v1-20-2>
+    - [`hetzner.hcloud`] 6.10.0: <https://github.com/ansible-collections/hetzner.hcloud/releases/tag/6.10.0>
+    - [`kubernetes.core`] 6.4.0: <https://github.com/ansible-collections/kubernetes.core/blob/6.4.0/CHANGELOG.rst#v6-4-0>
+    - [`vultr.cloud`] 1.14.1: <https://github.com/vultr/ansible-collection-vultr/releases/tag/v1.14.1>
+- [Biome] 2.5.2: <https://github.com/biomejs/biome/releases/tag/%40biomejs%2Fbiome%402.5.2>
+- [Butane] 0.28.0: <https://github.com/coreos/butane/releases/tag/v0.28.0>
+- [Deno] 2.9.1: <https://github.com/denoland/deno/releases/tag/v2.9.1>
+- [DigitalOcean CLI] 1.163.0: <https://github.com/digitalocean/doctl/releases/tag/v1.163.0>
+- [Helm] 4.2.2: <https://github.com/helm/helm/releases/tag/v4.2.2>
+- [Hetzner Cloud CLI] 1.66.0: <https://github.com/hetznercloud/cli/releases/tag/v1.66.0>
+- [Kubernetes CLI] 1.36.2: <https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.36.md>
+- [pip] packages:
+    - [`jmespath`] 1.1.0: <https://github.com/jmespath/jmespath.py/blob/1.1.0/CHANGELOG.rst#110>
+    - [`hcloud`] 2.22.0: <https://github.com/hetznercloud/hcloud-python/blob/v2.22.0/CHANGELOG.md#v2220>
+    - [`kubernetes-validate`] 1.36.0: <https://github.com/willthames/kubernetes-validate/releases/tag/v1.36.0>
+    - [`kubernetes`] 36.0.2: <https://github.com/kubernetes-client/python/blob/v36.0.2/CHANGELOG.md#v3602>
+- [Terraform] 1.15.7: <https://github.com/hashicorp/terraform/releases/tag/v1.15.7>
+
+
+
+
 ## [6.0.0] · 2026-04-30
 [6.0.0]: /../../tree/6.0.0
 
