@@ -6,6 +6,25 @@ All user visible changes to this project will be documented in this file. This p
 
 
 
+## [6.2.0] · 2026-07-09
+[6.2.0]: /../../tree/6.2.0
+
+[Diff](/../../compare/6.1.0...6.2.0)
+
+### Fixed
+
+- [pip] `ansible` pin [`urllib3`] to `< 2.4.0` to allow certificates without `keyUsage` extension.
+
+### Upgraded
+
+- [Biome] 2.5.3: <https://github.com/biomejs/biome/releases/tag/%40biomejs%2Fbiome%402.5.3>
+- [Butane] 0.29.0: <https://github.com/coreos/butane/releases/tag/v0.29.0>
+- [Deno] 2.9.2: <https://github.com/denoland/deno/releases/tag/v2.9.2>
+- [Terraform] 1.15.8: <https://github.com/hashicorp/terraform/releases/tag/v1.15.8>
+
+
+
+
 ## [6.1.0] · 2026-07-07
 [6.1.0]: /../../tree/6.1.0
 
@@ -971,6 +990,7 @@ All user visible changes to this project will be documented in this file. This p
 [`kubernetes-validate`]: https://pypi.org/project/kubernetes-validate
 [`kubernetes`]: https://pypi.org/project/kubernetes
 [`netaddr`]: https://pypi.org/project/netaddr
+[`urllib3`]: https://pypi.org/project/urllib3
 [Ansible]: https://redhat.com/ansible-collaborative
 [Biome]: https://biomejs.dev
 [Butane]: https://coreos.github.io/butane
