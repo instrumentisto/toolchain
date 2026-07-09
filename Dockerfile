@@ -50,13 +50,13 @@ RUN sed -i -E '/^\s+SendEnv/ s/\s(LANG|LC_\*)//g' /etc/ssh/ssh_config
 # Install Ansible and its dependencies.
 ENV PIPX_BIN_DIR=/usr/local/bin/
 COPY ansible/ansible-galaxy.deps.yml \
-     ansible/pip.requirements.txt \
+     ansible/requirements.txt \
      /deps/
 RUN pip install pipx \
     \
  && pipx install --include-deps ansible==${ansible_ver} \
     \
- && cat /deps/pip.requirements.txt \
+ && cat /deps/requirements.txt \
     | xargs pipx inject ansible \
  && ansible-galaxy install -r /deps/ansible-galaxy.deps.yml \
     \

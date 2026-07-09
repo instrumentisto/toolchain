@@ -29,7 +29,7 @@
     {
       "groupName": "ansible",
       "matchFileNames": [
-        "ansible/pip.requirements.txt",
+        "ansible/requirements.txt",
         "ansible/ansible-galaxy.deps.yml"
       ]
     }
@@ -47,7 +47,7 @@
   },
   "pip_requirements": {
     "addLabels": ["python"],
-    "managerFilePatterns": ["ansible/pip.requirements.txt"]
+    "managerFilePatterns": ["ansible/requirements.txt"]
   },
   "customManagers": [
     {
