@@ -51,13 +51,14 @@ RUN sed -i -E '/^\s+SendEnv/ s/\s(LANG|LC_\*)//g' /etc/ssh/ssh_config
 ENV PIPX_BIN_DIR=/usr/local/bin/
 COPY ansible/ansible-galaxy.deps.yml \
      ansible/requirements.txt \
+     ansible/constraints.txt \
      /deps/
 RUN pip install pipx \
     \
  && pipx install --include-deps ansible==${ansible_ver} \
     \
  && cat /deps/requirements.txt \
-    | xargs pipx inject ansible \
+    | xargs pipx inject ansible --pip-args="-c /deps/constraints.txt" \
  && ansible-galaxy install -r /deps/ansible-galaxy.deps.yml \
     \
  && pip cache purge \
