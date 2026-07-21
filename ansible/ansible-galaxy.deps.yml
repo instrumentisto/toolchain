@@ -12,7 +12,7 @@ collections:
     version: 1.27.0
   # https://galaxy.ansible.com/ui/repo/published/community/general
   - name: community.general
-    version: 13.1.0
+    version: 13.2.0
   # https://galaxy.ansible.com/ui/repo/published/containers/podman
   - name: containers.podman
     version: 1.20.2
@@ -21,7 +21,7 @@ collections:
     version: 6.10.0
   # https://galaxy.ansible.com/ui/repo/published/kubernetes/core
   - name: kubernetes.core
-    version: 6.4.0
+    version: 6.5.0
   # https://galaxy.ansible.com/ui/repo/published/vultr/cloud
   - name: vultr.cloud
     version: 1.14.1
