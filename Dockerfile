@@ -4,15 +4,15 @@ FROM python:${python_ver}-slim-trixie
 
 ARG image_ver=6.2.0
 ARG ansible_ver=11.12.0
-ARG biome_ver=2.5.3
+ARG biome_ver=2.5.5
 ARG butane_ver=0.29.0
-ARG deno_ver=2.9.2
-ARG doctl_ver=1.163.0
-ARG hcloud_ver=1.66.0
-ARG helm_ver=4.2.2
+ARG deno_ver=2.9.4
+ARG doctl_ver=1.164.0
+ARG hcloud_ver=1.67.0
+ARG helm_ver=4.2.3
 ARG jsonnet_ver=0.22.0
 ARG jsonnet_bundler_ver=0.6.0
-ARG kubectl_ver=1.36.2
+ARG kubectl_ver=1.36.3
 ARG terraform_ver=1.15.8
 
 # Indication that the current context is inside this toolchain container.
